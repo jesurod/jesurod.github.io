@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth bg-gray-900 text-gray-300">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Jesús Rodríguez - Portafolio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" href="favicon.ico" />
+</head>
+<body class="font-sans">
+
+  <header class="sticky top-0 bg-gray-800 bg-opacity-90 backdrop-blur-md p-4 shadow-md z-50">
+    <nav class="container mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold text-indigo-400">Jesús Rodríguez</h1>
+      <ul class="flex space-x-6 text-gray-300">
+        <li><a href="#about" class="hover:text-indigo-500 transition">Sobre mí</a></li>
+        <li><a href="#tech" class="hover:text-indigo-500 transition">Tecnologías</a></li>
+        <li><a href="#projects" class="hover:text-indigo-500 transition">Proyectos</a></li>
+        <li><a href="#contact" class="hover:text-indigo-500 transition">Contacto</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="container mx-auto px-4 py-8 space-y-16 max-w-4xl">
+    <section id="about" class="fade-in">
+      <h2 class="text-3xl font-semibold mb-4 border-b border-indigo-400 inline-block pb-1">Sobre mí</h2>
+      <p>Actualmente curso Ingeniería Informática y Administración y Dirección de Empresas en la Universidad de Granada. Me especializo en computación y sistemas inteligentes, enfocándome en algoritmos, agentes autónomos y automatización.</p>
+    </section>
+
+    <section id="tech" class="fade-in delay-200">
+      <h2 class="text-3xl font-semibold mb-4 border-b border-indigo-400 inline-block pb-1">Tecnologías con las que he trabajado</h2>
+      <ul class="list-disc list-inside space-y-2">
+        <li>Python, C, C++, Bash, SQL, Ruby, Java</li>
+        <li>Ansible, Docker, Prometheus, Grafana, Node Exporter, systemd</li>
+        <li>Rocky Linux, Ubuntu</li>
+        <li>Nginx, Apache, HTML</li>
+        <li>IA aplicada: heurísticas, motores de búsqueda, agentes autónomos</li>
+      </ul>
+    </section>
+
+    <section id="projects" class="fade-in delay-400">
+      <h2 class="text-3xl font-semibold mb-4 border-b border-indigo-400 inline-block pb-1">Proyectos</h2>
+      <p>Próximamente agregaré mis proyectos destacados. ¡Mantente atento!</p>
+    </section>
+
+    <section id="contact" class="fade-in delay-600">
+      <h2 class="text-3xl font-semibold mb-4 border-b border-indigo-400 inline-block pb-1">Contacto</h2>
+      <p>Email: <a href="mailto:jesurod24@gmail.com" class="text-indigo-400 hover:underline">jesurod24@gmail.com</a></p>
+      <p>LinkedIn: <a href="https://www.linkedin.com/in/jes%C3%BAs-rodr%C3%ADguez-gonz%C3%A1lez-233b89281/" target="_blank" rel="noopener noreferrer" class="text-indigo-400 hover:underline">linkedin.com/in/jesús-rodríguez-gonzález</a></p>
+      <p>Portafolio (en desarrollo): <a href="https://tuweb.dev" target="_blank" rel="noopener noreferrer" class="text-indigo-400 hover:underline">tuweb.dev</a></p>
+    </section>
+  </main>
+
+  <footer class="text-center text-gray-500 text-sm py-4 border-t border-gray-700">
+    &copy; 2025 Jesús Rodríguez. Todos los derechos reservados.
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const elements = document.querySelectorAll('.fade-in');
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('opacity-100', 'translate-y-0');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {threshold: 0.1});
+
+      elements.forEach(el => {
+        el.classList.add('opacity-0', 'translate-y-6', 'transition-all', 'duration-700');
+        observer.observe(el);
+      });
+    });
+  </script>
+</body>
+</html>
