@@ -1,75 +1,250 @@
 <!DOCTYPE html>
-<html lang="es" class="scroll-smooth bg-gray-900 text-gray-300">
+<html lang="es" class="scroll-smooth">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Jesús Rodríguez - Portafolio</title>
+  <title>Jesús Rodríguez | Software & Estrategia</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Tipografías elegantes y profesionales -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="icon" href="favicon.ico" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            serif: ['Playfair Display', 'serif'],
+          },
+          colors: {
+            brand: {
+              bg: '#0a0f16',     // Azul medianoche muy oscuro, casi negro
+              surface: '#131c27', // Fondo secundario
+              accent: '#38bdf8',  // Sky blue para toques técnicos
+              text: '#e2e8f0',
+              muted: '#94a3b8'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #0a0f16;
+      color: #e2e8f0;
+    }
+    /* Estilos sutiles para tarjetas */
+    .project-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+    .project-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 30px -10px rgba(56, 189, 248, 0.1);
+      border-color: #38bdf8;
+    }
+    /* Animaciones de aparición */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
 </head>
-<body class="font-sans">
+<body class="font-sans antialiased selection:bg-brand-accent selection:text-brand-bg">
 
-  <header class="sticky top-0 bg-gray-800 bg-opacity-90 backdrop-blur-md p-4 shadow-md z-50">
-    <nav class="container mx-auto flex justify-between items-center">
-      <h1 class="text-2xl font-bold text-indigo-400">Jesús Rodríguez</h1>
-      <ul class="flex space-x-6 text-gray-300">
-        <li><a href="#about" class="hover:text-indigo-500 transition">Sobre mí</a></li>
-        <li><a href="#tech" class="hover:text-indigo-500 transition">Tecnologías</a></li>
-        <li><a href="#projects" class="hover:text-indigo-500 transition">Proyectos</a></li>
-        <li><a href="#contact" class="hover:text-indigo-500 transition">Contacto</a></li>
+  <!-- Navegación Minimalista -->
+  <header class="fixed w-full top-0 bg-brand-bg/80 backdrop-blur-lg border-b border-white/5 z-50">
+    <nav class="container mx-auto px-6 py-5 flex justify-between items-center max-w-5xl">
+      <a href="#" class="font-serif text-xl font-bold tracking-wide text-white hover:text-brand-accent transition-colors">J.R.G.</a>
+      <ul class="hidden md:flex space-x-8 text-sm font-medium text-brand-muted">
+        <li><a href="#about" class="hover:text-white transition-colors">Sobre mí</a></li>
+        <li><a href="#projects" class="hover:text-white transition-colors">Proyectos</a></li>
+        <li><a href="#tech" class="hover:text-white transition-colors">Tecnología</a></li>
+        <li><a href="#contact" class="hover:text-brand-accent transition-colors">Contacto</a></li>
       </ul>
     </nav>
   </header>
 
-  <main class="container mx-auto px-4 py-8 space-y-16 max-w-4xl">
-    <section id="about" class="fade-in">
-      <h2 class="text-3xl font-semibold mb-4 border-b border-indigo-400 inline-block pb-1">Sobre mí</h2>
-      <p>Actualmente curso Ingeniería Informática y Administración y Dirección de Empresas en la Universidad de Granada. Me especializo en computación y sistemas inteligentes, enfocándome en algoritmos, agentes autónomos y automatización.</p>
+  <main class="container mx-auto px-6 max-w-5xl pt-32 pb-20 space-y-32">
+    
+    <!-- Hero Section -->
+    <section class="min-h-[60vh] flex flex-col justify-center fade-in">
+      <p class="text-brand-accent font-mono text-sm tracking-widest uppercase mb-6">Ingeniería Informática & ADE</p>
+      <h1 class="text-5xl md:text-7xl font-serif font-bold text-white leading-tight mb-6">
+        Diseñando soluciones<br>
+        <span class="text-brand-muted italic font-normal">donde el código y el negocio convergen.</span>
+      </h1>
+      <p class="max-w-2xl text-lg text-brand-muted leading-relaxed mb-10 font-light">
+        Soy Jesús Rodríguez, desarrollador de software y analista de datos. Especializado en Computación y Sistemas Inteligentes, construyo arquitecturas de datos, algoritmos predictivos y sistemas que resuelven problemas empresariales complejos.
+      </p>
+      <div>
+        <a href="#projects" class="inline-flex items-center justify-center px-6 py-3 border border-brand-accent text-brand-accent hover:bg-brand-accent hover:text-brand-bg font-medium transition-colors duration-300">
+          Ver Proyectos
+        </a>
+      </div>
     </section>
 
-    <section id="tech" class="fade-in delay-200">
-      <h2 class="text-3xl font-semibold mb-4 border-b border-indigo-400 inline-block pb-1">Tecnologías con las que he trabajado</h2>
-      <ul class="list-disc list-inside space-y-2">
-        <li>Python, C, C++, Bash, SQL, Ruby, Java</li>
-        <li>Ansible, Docker, Prometheus, Grafana, Node Exporter, systemd</li>
-        <li>Rocky Linux, Ubuntu</li>
-        <li>Nginx, Apache, HTML</li>
-        <li>IA aplicada: heurísticas, motores de búsqueda, agentes autónomos</li>
-      </ul>
+    <!-- Sobre Mí -->
+    <section id="about" class="grid md:grid-cols-12 gap-12 items-start fade-in">
+      <div class="md:col-span-4">
+        <h2 class="text-3xl font-serif font-bold text-white">El perfil.</h2>
+        <div class="w-12 h-0.5 bg-brand-accent mt-4"></div>
+      </div>
+      <div class="md:col-span-8 text-brand-muted leading-relaxed space-y-4 font-light">
+        <p>
+          Actualmente curso el Doble Grado en Ingeniería Informática y Administración y Dirección de Empresas (ADE) en la Universidad de Granada. Mi trayectoria académica y personal refleja una doble vocación: la excelencia técnica profunda y la visión estratégica.
+        </p>
+        <p>
+          Me he especializado en el ámbito de los Sistemas Inteligentes, enfocándome en arquitecturas escalables, automatización, análisis de datos y la aplicación práctica de metaheurísticas e inteligencia artificial, con un especial interés en su despliegue en sectores exigentes como el Fintech.
+        </p>
+      </div>
     </section>
 
-    <section id="projects" class="fade-in delay-400">
-      <h2 class="text-3xl font-semibold mb-4 border-b border-indigo-400 inline-block pb-1">Proyectos</h2>
-      <p>Próximamente agregaré mis proyectos destacados. ¡Mantente atento!</p>
+    <!-- Proyectos Destacados (El núcleo del portfolio) -->
+    <section id="projects" class="fade-in">
+      <div class="mb-12">
+        <h2 class="text-3xl font-serif font-bold text-white">Trabajo Destacado.</h2>
+        <div class="w-12 h-0.5 bg-brand-accent mt-4"></div>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Proyecto 1 -->
+        <div class="project-card bg-brand-surface border border-white/10 p-8 rounded-sm flex flex-col h-full">
+          <div class="flex justify-between items-start mb-4">
+            <h3 class="text-xl font-serif font-semibold text-white">Olist Growth Engine</h3>
+            <span class="text-xs font-mono text-brand-accent border border-brand-accent/30 px-2 py-1 rounded">2026</span>
+          </div>
+          <p class="text-brand-muted font-light mb-6 flex-grow">
+            Proyecto end-to-end de Data Science para la optimización de negocio. Desarrollo de modelos de Machine Learning para predicción de churn e integración de bases de datos, culminando en un dashboard analítico interactivo.
+          </p>
+          <div class="flex flex-wrap gap-2 mt-auto">
+            <span class="text-xs bg-white/5 px-2 py-1 text-gray-300">Python</span>
+            <span class="text-xs bg-white/5 px-2 py-1 text-gray-300">PostgreSQL</span>
+            <span class="text-xs bg-white/5 px-2 py-1 text-gray-300">Streamlit</span>
+            <span class="text-xs bg-white/5 px-2 py-1 text-gray-300">Machine Learning</span>
+          </div>
+        </div>
+
+        <!-- Proyecto 2 -->
+        <div class="project-card bg-brand-surface border border-white/10 p-8 rounded-sm flex flex-col h-full">
+          <div class="flex justify-between items-start mb-4">
+            <h3 class="text-xl font-serif font-semibold text-white">Optimización de Carteras</h3>
+            <span class="text-xs font-mono text-brand-accent border border-brand-accent/30 px-2 py-1 rounded">FinTech</span>
+          </div>
+          <p class="text-brand-muted font-light mb-6 flex-grow">
+            Diseño e implementación de algoritmos de búsqueda basados en poblaciones (metaheurísticas). Incluye el desarrollo en C++ del Marine Predators Algorithm aplicado a problemas de optimización en datasets financieros.
+          </p>
+          <div class="flex flex-wrap gap-2 mt-auto">
+            <span class="text-xs bg-white/5 px-2 py-1 text-gray-300">C++</span>
+            <span class="text-xs bg-white/5 px-2 py-1 text-gray-300">Metaheurísticas</span>
+            <span class="text-xs bg-white/5 px-2 py-1 text-gray-300">Algoritmia</span>
+          </div>
+        </div>
+
+        <!-- Proyecto 3 -->
+        <div class="project-card bg-brand-surface border border-white/10 p-8 rounded-sm flex flex-col h-full md:col-span-2">
+          <div class="flex justify-between items-start mb-4">
+            <h3 class="text-xl font-serif font-semibold text-white">EKIS - Base de Datos de Grafos</h3>
+            <span class="text-xs font-mono text-brand-accent border border-brand-accent/30 px-2 py-1 rounded">Arquitectura</span>
+          </div>
+          <p class="text-brand-muted font-light mb-6">
+            Modelado e implementación de una red social mediante bases de datos orientadas a grafos. Formulación estricta de restricciones, relaciones y consultas complejas para el tratamiento masivo de entidades interconectadas.
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span class="text-xs bg-white/5 px-2 py-1 text-gray-300">Neo4j</span>
+            <span class="text-xs bg-white/5 px-2 py-1 text-gray-300">Cypher</span>
+            <span class="text-xs bg-white/5 px-2 py-1 text-gray-300">LaTeX</span>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <section id="contact" class="fade-in delay-600">
-      <h2 class="text-3xl font-semibold mb-4 border-b border-indigo-400 inline-block pb-1">Contacto</h2>
-      <p>Email: <a href="mailto:jesurod24@gmail.com" class="text-indigo-400 hover:underline">jesurod24@gmail.com</a></p>
-      <p>LinkedIn: <a href="https://www.linkedin.com/in/jes%C3%BAs-rodr%C3%ADguez-gonz%C3%A1lez-233b89281/" target="_blank" rel="noopener noreferrer" class="text-indigo-400 hover:underline">linkedin.com/in/jesús-rodríguez-gonzález</a></p>
+    <!-- Tecnologías -->
+    <section id="tech" class="grid md:grid-cols-12 gap-12 items-start fade-in">
+      <div class="md:col-span-4">
+        <h2 class="text-3xl font-serif font-bold text-white">Stack Técnico.</h2>
+        <div class="w-12 h-0.5 bg-brand-accent mt-4"></div>
+      </div>
+      <div class="md:col-span-8 grid grid-cols-2 gap-8 text-sm font-light text-brand-muted">
+        <div>
+          <h4 class="text-white font-medium mb-3 uppercase tracking-wider text-xs">Lenguajes & Backend</h4>
+          <ul class="space-y-2">
+            <li>Python / C++ / C</li>
+            <li>Java / Ruby</li>
+            <li>Bash Scripting</li>
+            <li>SQL (PostgreSQL)</li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-white font-medium mb-3 uppercase tracking-wider text-xs">Data & AI</h4>
+          <ul class="space-y-2">
+            <li>Machine Learning Pipeline</li>
+            <li>Neo4j / Cypher</li>
+            <li>NumPy / Pandas</li>
+            <li>Agentes Autónomos</li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-white font-medium mb-3 uppercase tracking-wider text-xs">Sistemas & DevOps</h4>
+          <ul class="space-y-2">
+            <li>Arch Linux / Entornos UNIX</li>
+            <li>Docker / Ansible</li>
+            <li>Prometheus / Grafana</li>
+            <li>Git</li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-white font-medium mb-3 uppercase tracking-wider text-xs">Idiomas</h4>
+          <ul class="space-y-2">
+            <li>Español (Nativo)</li>
+            <li>Inglés (C1 - Cambridge)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contacto -->
+    <section id="contact" class="text-center py-20 fade-in border-t border-white/5">
+      <h2 class="text-3xl font-serif font-bold text-white mb-6">¿Hablamos?</h2>
+      <p class="text-brand-muted max-w-xl mx-auto font-light mb-8">
+        Si buscas un perfil técnico con capacidad para entender las reglas del negocio, o si simplemente quieres discutir sobre algoritmia o sistemas, mi bandeja de entrada está abierta.
+      </p>
+      <div class="flex justify-center space-x-6">
+        <a href="mailto:jesurod24@gmail.com" class="text-brand-muted hover:text-brand-accent transition-colors font-medium">
+          jesurod24@gmail.com
+        </a>
+        <span class="text-white/20">|</span>
+        <a href="https://www.linkedin.com/in/jes%C3%BAs-rodr%C3%ADguez-gonz%C3%A1lez-233b89281/" target="_blank" rel="noopener noreferrer" class="text-brand-muted hover:text-brand-accent transition-colors font-medium">
+          LinkedIn
+        </a>
+      </div>
     </section>
   </main>
 
-  <footer class="text-center text-gray-500 text-sm py-4 border-t border-gray-700">
-    &copy; 2025 Jesús Rodríguez. Todos los derechos reservados.
+  <footer class="bg-brand-surface py-6 text-center text-xs text-brand-muted font-light">
+    &copy; 2026 Jesús Rodríguez González. Todos los derechos reservados.
   </footer>
 
+  <!-- Script optimizado para IntersectionObserver -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      const elements = document.querySelectorAll('.fade-in');
-      const observer = new IntersectionObserver(entries => {
+      const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            entry.target.classList.add('opacity-100', 'translate-y-0');
+            entry.target.classList.add('visible');
             observer.unobserve(entry.target);
           }
         });
-      }, {threshold: 0.1});
+      }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
 
-      elements.forEach(el => {
-        el.classList.add('opacity-0', 'translate-y-6', 'transition-all', 'duration-700');
-        observer.observe(el);
-      });
+      document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
     });
   </script>
 </body>
