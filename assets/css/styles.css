@@ -1,0 +1,166 @@
+/* ==========================================================================
+   Scientific Aesthetics: The Loss Landscape & Optimization Manifold
+   Jesús Rodríguez González
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --color-bg: #070a0f;
+  --color-surface: #0e141e;
+  --color-surface-hover: #151e2c;
+  --color-accent: #38bdf8;
+  --color-accent-amber: #f59e0b;
+  --color-accent-emerald: #10b981;
+  --color-border: rgba(255, 255, 255, 0.08);
+}
+
+body {
+  background-color: var(--color-bg);
+  color: #e2e8f0;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Custom Typography Utility */
+.font-serif {
+  font-family: 'Newsreader', Georgia, serif;
+}
+
+.font-mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Loss Canvas Positioning */
+#loss-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Projects Container Smooth Page Transition */
+#projects-container {
+  transition: opacity 0.16s ease-in-out;
+}
+
+/* Selection */
+::selection {
+  background-color: rgba(56, 189, 248, 0.25);
+  color: #ffffff;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #070a0f;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(56, 189, 248, 0.4);
+}
+
+/* Noise texture overlay for high-end matte finish */
+.bg-noise {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 0);
+  background-size: 24px 24px;
+}
+
+/* Code Block & Pre styling */
+pre code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+}
+
+/* Glow effects */
+.glow-accent {
+  box-shadow: 0 0 40px -10px rgba(56, 189, 248, 0.15);
+}
+
+/* Mathematical Equation Badge */
+.math-tag {
+  letter-spacing: 0.02em;
+}
+
+/* Animations */
+@keyframes pulseSubtle {
+  0%, 100% { opacity: 0.8; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+
+.animate-pulse-subtle {
+  animation: pulseSubtle 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Print Styles for CV Inspection Modal */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #cv-modal, #cv-modal * {
+    visibility: visible;
+  }
+  #cv-modal {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background: #ffffff !important;
+    color: #111827 !important;
+    box-shadow: none !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+}
+
+/* ==========================================================================
+   KaTeX & Mathematical Typography Enhancements
+   ========================================================================== */
+.katex {
+  color: #f1f5f9;
+  font-size: 0.95em;
+  text-rendering: auto;
+}
+
+.katex-display {
+  margin: 0.5em 0 !important;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.25em 0;
+}
+
+.math-formula {
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+  overflow-x: auto;
+  font-feature-settings: "tnum";
+}
+
+.math-formula .katex {
+  font-size: 0.88em;
+  color: #e2e8f0;
+}
+
+.math-formula sub,
+.math-formula sup {
+  font-size: 0.72em;
+  line-height: 0;
+}
+
