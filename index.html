@@ -3,1273 +3,443 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jesús Rodríguez González | Data Science, Intelligent Systems & Strategy</title>
+  <title>Jesús Rodríguez González | Data Science, Intelligent Systems &amp; Strategy</title>
   <meta name="description" content="Portafolio de Jesús Rodríguez González. Doble Grado en Ingeniería Informática (Sistemas Inteligentes) y ADE por la Universidad de Granada. Data Science, Metaheurísticas, FinTech y Algoritmia." />
-  
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  
-  <!-- Custom Tailwind Config -->
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            brand: {
-              bg: '#070a0f',
-              surface: '#0e141e',
-              'surface-hover': '#151e2c',
-              border: 'rgba(255, 255, 255, 0.08)',
-              accent: '#38bdf8',       // Cyan de precisión / convergencia
-              amber: '#f59e0b',        // Mínimo y cresta de función de pérdida
-              emerald: '#10b981',      // Métrica en convergencia
-              text: '#f1f5f9',
-              muted: '#94a3b8'
-            }
-          }
-        }
-      }
-    }
+  <link rel="canonical" href="https://jesurod.github.io/" />
+  <meta name="theme-color" content="#070a0f" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="es_ES" />
+  <meta property="og:url" content="https://jesurod.github.io/" />
+  <meta property="og:title" content="Jesús Rodríguez González | Sistemas Inteligentes, algoritmia y datos" />
+  <meta property="og:description" content="Doble Grado en Ingeniería Informática y ADE en la Universidad de Granada. Data Science, metaheurísticas y optimización." />
+  <meta property="og:image" content="https://jesurod.github.io/assets/img/og-cover.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Jesús Rodríguez González",
+    "url": "https://jesurod.github.io/",
+    "image": "https://jesurod.github.io/assets/img/jesus-rodriguez-studio.jpg",
+    "description": "Estudiante del Doble Grado en Ingeniería Informática y ADE, especializado en Sistemas Inteligentes y Data Science.",
+    "alumniOf": { "@type": "CollegeOrUniversity", "name": "Universidad de Granada" },
+    "knowsAbout": ["Data Science", "Machine Learning", "Metaheurísticas", "Algoritmia", "C++", "Python"],
+    "sameAs": [
+      "https://www.linkedin.com/in/jes%C3%BAs-rodr%C3%ADguez-gonz%C3%A1lez-233b89281/",
+      "https://github.com/jesurod"
+    ]
+  }
   </script>
 
-  <!-- Google Fonts & Custom CSS -->
-  <link rel="stylesheet" href="assets/css/styles.css" />
-  
-  <!-- KaTeX para Renderizado Tipográfico de Formulación Matemática -->
-  <link rel="stylesheet" href="assets/vendor/katex/katex.min.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous" />
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg" />
 
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220%22><text y=%2222%22 font-size=%2222%22>⚡</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" />
+
+  <!-- tailwind.css is generated: see tailwind.config.js -->
+  <link rel="stylesheet" href="assets/css/tailwind.css" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <link rel="stylesheet" href="assets/vendor/katex/katex.min.css" />
+
+  <!-- Deferred scripts run in this order, after parsing and before DOMContentLoaded -->
+  <script defer src="assets/vendor/katex/katex.min.js"></script>
+  <script defer src="assets/js/projects-data.js"></script>
+  <script defer src="assets/js/app.js"></script>
+  <script defer src="assets/js/loss-landscape.js"></script>
 </head>
 
 <body class="bg-brand-bg text-brand-text relative min-h-screen selection:bg-brand-accent/25 selection:text-white">
+  <a href="#about" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60] focus:px-4 focus:py-2 focus:rounded-md focus:bg-brand-accent focus:text-brand-bg focus:font-mono focus:text-xs focus:font-semibold">Saltar al contenido</a>
 
-  <!-- Canvas de Fondo: Degradado de Color continuo del Paisaje de Pérdida + Puntos Críticos Etiquetados -->
-  <canvas id="loss-canvas"></canvas>
+  <!-- Paisaje de pérdida: relieve, curvas de nivel y optimizador ligado al scroll -->
+  <canvas id="loss-canvas" aria-hidden="true"></canvas>
 
-  <!-- Overlay sutil de grano mate para textura científica -->
-  <div class="fixed inset-0 pointer-events-none bg-noise z-0 opacity-40"></div>
+  <header class="fixed top-0 inset-x-0 z-40 bg-brand-bg/80 backdrop-blur-md border-b border-white/[0.07]">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
 
-  <!-- NAVEGACIÓN SUPERIOR TÉCNICA -->
-  <header class="fixed top-0 left-0 w-full z-40 bg-brand-bg/85 backdrop-blur-md border-b border-brand-border">
-    <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
-      
-      <!-- Monograma & Título -->
-      <a href="#" class="flex items-center gap-3 group">
-        <div class="w-10 h-10 rounded-lg bg-brand-surface border border-brand-border group-hover:border-brand-accent/50 flex items-center justify-center font-mono font-bold text-sm text-brand-accent transition-colors">
-          JRG
-        </div>
-        <div>
-          <span class="font-serif font-bold text-lg text-white group-hover:text-brand-accent transition-colors block leading-tight">
-            Jesús Rodríguez
-          </span>
-          <span class="font-mono text-[11px] text-brand-muted tracking-wider block">
-            DATA SCIENCE · CS & ADE
-          </span>
-        </div>
-      </a>
+      <a href="#" class="font-serif font-medium text-lg text-white hover:text-brand-accent transition-colors whitespace-nowrap">Jesús Rodríguez</a>
 
-      <!-- Telemetría de Disponibilidad (Pill central) -->
-      <div class="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-surface/80 border border-brand-border text-xs font-mono">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-        <span class="text-slate-300">DISPONIBLE</span>
-        <span class="text-brand-muted">· Granada / Remoto</span>
+      <!-- Lectura del descenso: avanza con el scroll -->
+      <div aria-hidden="true" class="hidden lg:flex items-center gap-3 font-mono text-[11px] text-brand-muted tabular-nums">
+        <svg width="80" height="20" viewBox="0 0 80 20" fill="none">
+          <path id="hud-curve" stroke="#38bdf8" stroke-opacity=".45" stroke-width="1"/>
+          <circle id="hud-dot" r="2" fill="#f59e0b"/>
+        </svg>
+        <span>iter <span id="hud-iter" class="text-slate-300">000</span></span>
+        <span>L(θ) <span id="hud-loss" class="text-brand-accent">+0.000</span></span>
       </div>
 
-      <!-- Menú y Acciones Directas -->
-      <div class="flex items-center gap-4 sm:gap-6">
-        <nav class="hidden md:flex items-center gap-6 text-xs font-mono text-brand-muted">
-          <a href="#about" class="hover:text-white transition-colors">01. Enfoque</a>
-          <a href="#projects" class="hover:text-white transition-colors">02. Proyectos</a>
-          <a href="#tech" class="hover:text-white transition-colors">03. Stack</a>
-          <a href="#cv" class="hover:text-white transition-colors">04. CV</a>
-          <a href="#contact" class="hover:text-white transition-colors">05. Contacto</a>
+      <div class="flex items-center gap-2 sm:gap-6 shrink-0">
+        <nav aria-label="Principal" class="hidden md:flex items-center gap-6 text-[13px] text-slate-300">
+          <a href="#about" class="hover:text-white transition-colors">Enfoque</a>
+          <a href="#projects" class="hover:text-white transition-colors">Proyectos</a>
+          <a href="#tech" class="hover:text-white transition-colors">Stack</a>
+          <a href="#cv" class="hover:text-white transition-colors">CV</a>
+          <a href="#contact" class="hover:text-white transition-colors">Contacto</a>
         </nav>
 
-        <!-- Botón Ver CV Oficial (Abre Visor PDF Bilingüe) -->
-        <button 
-          class="trigger-cv-modal inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-brand-surface border border-brand-accent/40 text-brand-accent hover:bg-brand-accent hover:text-brand-bg font-mono text-xs font-semibold transition-all duration-200"
-          title="Ver currículum vitae oficial en PDF"
-          data-cv-lang="es"
-        >
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-          <span>CV [PDF]</span>
+        <button type="button" class="trigger-cv-modal btn-outline !py-1.5" title="Ver currículum en PDF" data-cv-lang="es">CV<span class="hidden sm:inline">&nbsp;PDF</span></button>
+
+        <button id="nav-toggle" type="button" class="md:hidden p-2 rounded-md border border-white/10 text-slate-300 hover:text-white transition-colors" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="mobile-nav">
+          <svg id="nav-toggle-open" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-width="1.75" d="M4 7h16M4 12h16M4 17h16"/></svg>
+          <svg id="nav-toggle-close" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-width="1.75" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
       </div>
-
     </div>
+
+    <nav id="mobile-nav" aria-label="Móvil" class="hidden md:hidden border-t border-white/[0.07] bg-brand-bg/95 px-4 sm:px-6 py-2 text-[15px] text-slate-300">
+      <a href="#about" class="block py-3 hover:text-white transition-colors">Enfoque</a>
+      <a href="#projects" class="block py-3 hover:text-white transition-colors">Proyectos</a>
+      <a href="#tech" class="block py-3 hover:text-white transition-colors">Stack</a>
+      <a href="#cv" class="block py-3 hover:text-white transition-colors">CV</a>
+      <a href="#contact" class="block py-3 hover:text-white transition-colors">Contacto</a>
+    </nav>
   </header>
 
-  <!-- CONTENIDO PRINCIPAL -->
-  <main class="relative z-10 max-w-6xl mx-auto px-6 pt-36 pb-24 space-y-36">
+  <main class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 pt-16">
 
-    <!-- SECCIÓN HERO: Enfoque Directo y Retrato Visible al Entrar -->
-    <section class="min-h-[80vh] flex flex-col justify-center">
-      
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-16">
-        
-        <!-- Columna Izquierda (7 cols): Titular Honesto y Posicionamiento Claro -->
-        <div class="lg:col-span-7 space-y-6">
-          
-          <!-- Badge de Formación Real -->
-          <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-md bg-brand-surface border border-brand-border text-xs font-mono text-brand-muted w-fit">
-            <span class="w-1.5 h-1.5 rounded-full bg-brand-accent"></span>
-            <span class="text-brand-accent font-medium">UNIVERSIDAD DE GRANADA</span>
-            <span class="text-white/20">|</span>
-            <span>DOBLE GRADO INFORMÁTICA & ADE</span>
-          </div>
+    <!-- HERO -->
+    <section class="min-h-[calc(100vh-4rem)] flex flex-col justify-center py-14">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
 
-          <!-- Titular Directo, Auténtico y Técnico -->
-          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-serif font-bold text-white leading-[1.2] tracking-tight">
+        <div class="lg:col-span-7">
+          <p class="eyebrow flex items-center gap-2.5 !text-slate-300">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            Disponible · Granada / Remoto
+          </p>
+
+          <h1 class="mt-6 font-serif font-medium text-white text-5xl sm:text-6xl lg:text-7xl leading-[1.04] tracking-tight">
             Sistemas Inteligentes,
-            <span class="inline-block text-transparent bg-clip-text bg-gradient-to-r from-brand-accent via-cyan-200 to-amber-300 font-normal italic pb-3 pr-2">
-              algoritmia y datos.
-            </span>
+            <em class="block font-normal text-transparent bg-clip-text bg-gradient-to-r from-brand-accent via-cyan-200 to-amber-300 pb-2">algoritmia y datos.</em>
           </h1>
 
-          <!-- Párrafo Claro y Aterrizado a su Perfil Académico/Técnico -->
-          <p class="text-base sm:text-lg text-brand-muted font-light leading-relaxed max-w-xl">
-            Soy <strong class="text-white font-medium">Jesús Rodríguez González</strong>. Combino una sólida base computacional y matemática en C++ y Machine Learning con la visión analítica de las decisiones financieras y de negocio. Actualmente cursando el Doble Grado en la UGR con una nota media de <strong class="text-slate-200 font-mono font-medium">8.5/10</strong>.
+          <p class="mt-6 max-w-xl text-lg copy">
+            Soy <strong class="text-white font-medium">Jesús Rodríguez González</strong>. Combino una sólida base computacional y matemática en C++ y Machine Learning con la visión analítica de las decisiones financieras y de negocio. Actualmente cursando el Doble Grado en la UGR con una nota media de <span class="font-mono text-white">8.5/10</span>.
           </p>
 
-          <!-- Botones de Acción Inmediata -->
-          <div class="flex flex-wrap items-center gap-3.5 pt-2">
-            <a 
-              href="#projects" 
-              class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-brand-accent text-brand-bg font-mono text-xs font-bold hover:bg-cyan-300 transition-colors shadow-lg shadow-brand-accent/10"
-            >
-              <span>Ver Proyectos Destacados</span>
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-            </a>
-
-            <button 
-              class="trigger-cv-modal inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-brand-surface border border-brand-border text-white hover:border-brand-accent/60 font-mono text-xs transition-all"
-              data-cv-lang="es"
-            >
-              <svg class="w-4 h-4 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-              <span>Ver CV Oficial [PDF]</span>
-            </button>
-
-            <a 
-              href="#contact" 
-              class="inline-flex items-center gap-1.5 px-4 py-3 rounded-xl text-brand-muted hover:text-white font-mono text-xs transition-colors"
-            >
-              <span>Contacto directo →</span>
-            </a>
-          </div>
-
-        </div>
-
-        <!-- Columna Derecha (5 cols): Retrato Profesional Visible Nada Más Entrar -->
-        <div class="lg:col-span-5 flex justify-center lg:justify-end">
-          <div class="relative w-full max-w-[320px] group">
-            
-            <!-- Resplandor ambiental de fondo -->
-            <div class="absolute -inset-1 bg-gradient-to-t from-brand-accent/20 via-cyan-500/10 to-transparent rounded-3xl filter blur-xl transform group-hover:scale-105 transition-transform duration-500 opacity-70"></div>
-            
-            <!-- Tarjeta de Retrato con Acabado de Estudio Limpio (Sin halos) -->
-            <div class="relative bg-gradient-to-b from-brand-surface to-brand-bg border border-brand-border group-hover:border-brand-accent/50 rounded-2xl p-3.5 overflow-hidden transition-all duration-300 shadow-2xl">
-              
-              <!-- Barra de Estado Técnica Superior -->
-              <div class="flex items-center justify-between text-[10px] font-mono mb-2.5 px-1 text-brand-muted">
-                <span class="inline-flex items-center gap-1.5 text-emerald-400 font-medium">
-                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                  DISPONIBLE · UGR
-                </span>
-                <span class="text-brand-accent font-semibold tracking-wider">J.R.G.</span>
-              </div>
-
-              <!-- Foto Oficial en Retrato de Estudio Limpio -->
-              <div class="relative w-full aspect-[4/5] rounded-xl overflow-hidden bg-slate-900 shadow-inner">
-                <img 
-                  src="assets/img/jesus-rodriguez-studio.jpg?v=3" 
-                  alt="Jesús Rodríguez González" 
-                  class="w-full h-full object-cover object-top filter contrast-[1.03] group-hover:scale-105 transition-transform duration-500"
-                  loading="eager"
-                />
-                <!-- Degradado sutil en la base de la imagen para fundirse con la tarjeta -->
-                <div class="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-brand-surface via-brand-surface/40 to-transparent pointer-events-none"></div>
-              </div>
-
-              <!-- Identificador al pie de la foto -->
-              <div class="mt-3 px-1 pt-2 border-t border-brand-border/60 font-mono">
-                <div class="flex items-baseline justify-between text-xs">
-                  <span class="font-bold text-white tracking-wide">Jesús Rodríguez</span>
-                  <span class="text-[10px] text-emerald-400">8.5 / 10 GPA</span>
-                </div>
-                <div class="text-[11px] text-brand-accent mt-0.5">Ingeniería Informática & ADE</div>
-                <div class="text-[10px] text-brand-muted/80 mt-1">Sistemas Inteligentes · Data Science</div>
-              </div>
-
-            </div>
+          <div class="mt-9 flex flex-wrap items-center gap-3">
+            <a href="#projects" class="btn-solid">Ver proyectos</a>
+            <button type="button" class="trigger-cv-modal btn-outline" data-cv-lang="es">Ver CV</button>
+            <a href="#contact" class="ml-1 text-sm text-slate-300 hover:text-white transition-colors">Contacto →</a>
           </div>
         </div>
 
+        <figure class="lg:col-span-5 w-full max-w-[340px] mx-auto lg:mr-0">
+          <picture>
+            <source srcset="assets/img/jesus-rodriguez-studio-640.webp" type="image/webp" />
+            <img src="assets/img/jesus-rodriguez-studio.jpg?v=3" alt="Retrato de Jesús Rodríguez González" width="804" height="1024" fetchpriority="high" class="w-full h-auto rounded-lg border border-white/10" />
+          </picture>
+          <figcaption class="mt-3 flex items-baseline justify-between gap-4 font-mono text-xs text-brand-muted">
+            <span class="text-white">θ* · J. Rodríguez</span>
+            <span>Universidad de Granada</span>
+          </figcaption>
+        </figure>
       </div>
 
-      <!-- Telemetría Rápida (3 Pilares del Perfil) -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-10 border-t border-brand-border">
-        
-        <div class="p-5 rounded-xl bg-brand-surface/60 border border-brand-border">
-          <div class="text-[11px] font-mono text-brand-accent uppercase tracking-wider mb-1">01. FORMACIÓN ACADÉMICA</div>
-          <div class="text-base font-semibold text-white">Ing. Informática + ADE</div>
-          <p class="text-xs text-brand-muted mt-1 leading-relaxed">Universidad de Granada (UGR). Nota media: 8.5/10. Especialidad en Computación y Sistemas Inteligentes.</p>
+      <dl class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10 border-t border-white/10 pt-8">
+        <div>
+          <dt class="eyebrow">Formación</dt>
+          <dd class="mt-2 text-white font-medium">Ingeniería Informática + ADE</dd>
+          <dd class="mt-1 text-sm copy">Doble Grado en la Universidad de Granada, especialidad en Computación y Sistemas Inteligentes.</dd>
         </div>
-
-        <div class="p-5 rounded-xl bg-brand-surface/60 border border-brand-border">
-          <div class="text-[11px] font-mono text-brand-amber uppercase tracking-wider mb-1">02. NÚCLEO TÉCNICO</div>
-          <div class="text-base font-semibold text-white">C++, ML & Algoritmia</div>
-          <p class="text-xs text-brand-muted mt-1 leading-relaxed">Metaheurísticas (AGG, AGE, AM), demostraciones formales de complejidad y modelos predictivos en Python.</p>
+        <div>
+          <dt class="eyebrow !text-brand-amber">Núcleo técnico</dt>
+          <dd class="mt-2 text-white font-medium">C++, ML y algoritmia</dd>
+          <dd class="mt-1 text-sm copy">Metaheurísticas (AGG, AGE, AM), demostraciones formales de complejidad y modelos predictivos en Python.</dd>
         </div>
-
-        <div class="p-5 rounded-xl bg-brand-surface/60 border border-brand-border">
-          <div class="text-[11px] font-mono text-emerald-400 uppercase tracking-wider mb-1">03. VISIÓN ESTRATÉGICA</div>
-          <div class="text-base font-semibold text-white">Del Código al Negocio</div>
-          <p class="text-xs text-brand-muted mt-1 leading-relaxed">Entendimiento de las reglas empresariales, optimización de carteras financieras y decisiones basadas en datos.</p>
+        <div>
+          <dt class="eyebrow !text-emerald-400">Visión estratégica</dt>
+          <dd class="mt-2 text-white font-medium">Del código al negocio</dd>
+          <dd class="mt-1 text-sm copy">Reglas empresariales, optimización de carteras financieras y decisiones basadas en datos.</dd>
         </div>
-
-      </div>
-
+      </dl>
     </section>
 
-    <!-- SECCIÓN SOBRE MÍ & FILOSOFÍA -->
-    <section id="about" class="space-y-12">
-      
-      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-brand-border pb-8">
+    <!-- ENFOQUE -->
+    <section id="about" class="py-20 sm:py-28">
+      <p class="eyebrow">01 — Enfoque</p>
+      <h2 class="section-title mt-4 max-w-3xl">La sinergia entre el código y las reglas de negocio.</h2>
+
+      <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-x-14 gap-y-5 copy text-[17px]">
+        <p>En un ecosistema donde a menudo se tratan el software y el análisis estratégico como silos aislados, mi formación en el <strong class="text-white font-medium">Doble Grado en Ingeniería Informática y ADE</strong> me permite operar en ambas fronteras sin fricción de traducción.</p>
+        <p>En ADE, entiendo que una métrica técnica cobra sentido cuando respalda decisiones de producto y operativas: modelos de precios dinámicos, retención de clientes (churn) u optimización de carteras financieras bajo restricciones de capital.</p>
+        <p>En computación me especializo en <strong class="text-white font-medium">Sistemas Inteligentes</strong>: desde el diseño en C++ de algoritmos evolutivos y meméticos (AGG, AGE, AM) hasta la demostración formal de problemas NP-Completos y el modelado de redes en bases de datos de grafos con Neo4j.</p>
+        <p>Busco oportunidades donde pueda aportar tanto mi rigor analítico en algoritmia y modelado de datos como mi comprensión de los objetivos comerciales y financieros de una organización.</p>
+      </div>
+
+      <div class="mt-14 grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10 border-t border-white/10 pt-8">
         <div>
-          <span class="text-xs font-mono text-brand-accent uppercase tracking-widest block mb-2">// 01. FUNDAMENTOS</span>
-          <h2 class="text-3xl sm:text-4xl font-serif font-bold text-white">
-            La sinergia entre el código y las reglas de negocio.
-          </h2>
+          <h3 class="font-serif text-xl text-white">Rigor teórico</h3>
+          <p class="mt-2 text-sm copy">Demostraciones formales y comprensión matemática de los límites de cada algoritmo.</p>
         </div>
-        <p class="text-sm font-mono text-brand-muted max-w-sm">
-          El verdadero valor del dato surge cuando la sofisticación técnica resuelve una asimetría económica real.
-        </p>
+        <div>
+          <h3 class="font-serif text-xl text-white">Eficiencia en C++</h3>
+          <p class="mt-2 text-sm copy">Desarrollo en entornos Linux avanzados, pipelines reproducibles y monitorización continua.</p>
+        </div>
+        <div>
+          <h3 class="font-serif text-xl text-white">Pragmatismo</h3>
+          <p class="mt-2 text-sm copy">Transformar conceptos teóricos complejos en soluciones escalables que aporten valor real.</p>
+        </div>
       </div>
-
-      <div class="space-y-8">
-        
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 text-brand-muted leading-relaxed font-light text-base">
-          <div class="lg:col-span-6 space-y-4">
-            <p>
-              En un ecosistema donde a menudo se tratan el software y el análisis estratégico como silos aislados, mi formación en el <strong class="text-white font-medium">Doble Grado en Ingeniería Informática y ADE</strong> en la Universidad de Granada me permite operar en ambas fronteras sin fricción de traducción.
-            </p>
-            <p>
-              En el plano de la computación, me especializo en <strong class="text-white font-medium">Sistemas Inteligentes</strong>: desde el diseño en C++ de algoritmos evolutivos y meméticos avanzados (AGG, AGE, AM) hasta la demostración matemática formal de problemas NP-Completos y el modelado de redes complejas en grafos masivos con Neo4j.
-            </p>
-          </div>
-          <div class="lg:col-span-6 space-y-4">
-            <p>
-              En el plano de ADE, entiendo que una métrica técnica cobra sentido cuando respalda decisiones de producto y operativas: modelos de precios dinámicos, retención de clientes (churn) o la optimización del rendimiento en carteras financieras bajo restricciones de capital.
-            </p>
-            <p>
-              Busco oportunidades donde pueda aportar tanto mi rigor analítico en algoritmia y modelado de datos como mi comprensión de los objetivos comerciales y financieros de una organización.
-            </p>
-          </div>
-        </div>
-
-        <!-- Ficha de Principios Operativos en Cuadrícula -->
-        <div class="bg-brand-surface border border-brand-border rounded-2xl p-6 sm:p-8 space-y-6">
-          <div class="text-xs font-mono text-brand-accent uppercase tracking-widest">// PRINCIPIOS DE TRABAJO</div>
-
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="space-y-1.5">
-              <div class="font-mono text-xs text-brand-accent font-bold">01. RIGOR TEÓRICO</div>
-              <h4 class="text-sm font-semibold text-white">Lógica & Complejidad</h4>
-              <p class="text-xs text-brand-muted leading-relaxed font-light">Demostraciones formales y comprensión matemática de los límites de cada algoritmo.</p>
-            </div>
-
-            <div class="space-y-1.5">
-              <div class="font-mono text-xs text-brand-amber font-bold">02. EFICIENCIA HPC</div>
-              <h4 class="text-sm font-semibold text-white">C++ & Linux</h4>
-              <p class="text-xs text-brand-muted leading-relaxed font-light">Desarrollo en entornos Linux avanzados, pipelines reproducibles y monitorización continua.</p>
-            </div>
-
-            <div class="space-y-1.5">
-              <div class="font-mono text-xs text-emerald-400 font-bold">03. PRAGMATISMO</div>
-              <h4 class="text-sm font-semibold text-white">Impacto Medible</h4>
-              <p class="text-xs text-brand-muted leading-relaxed font-light">Transformar conceptos teóricos complejos en soluciones escalables que aporten valor real.</p>
-            </div>
-          </div>
-
-          <div class="pt-4 border-t border-brand-border flex items-center justify-between text-xs font-mono">
-            <span class="text-brand-muted">Entorno de desarrollo:</span>
-            <span class="text-slate-300">Arch Linux / Ubuntu · Git · Neovim</span>
-          </div>
-        </div>
-
-      </div>
-
     </section>
 
-    <!-- SECCIÓN PROYECTOS & EXPERIMENTOS (Pre-renderizados Estáticamente para Cero Fallos) -->
-    <section id="projects" class="space-y-12">
-      
-      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-brand-border pb-8">
-        <div>
-          <span class="text-xs font-mono text-brand-accent uppercase tracking-widest block mb-2">// 02. TRABAJO DESTACADO & GITHUB</span>
-          <h2 class="text-3xl sm:text-4xl font-serif font-bold text-white">
-            Proyectos Relevantes
-          </h2>
-        </div>
-        <div class="text-xs font-mono text-brand-muted flex items-center gap-2">
-          <span class="w-2 h-2 rounded-full bg-brand-accent animate-pulse"></span>
-          <span>Haz clic en cualquier proyecto para abrir el <strong>Inspector</strong> con métricas, pipeline y GitHub</span>
-        </div>
+    <!-- PROYECTOS: las tarjetas las genera app.js desde projects-data.js -->
+    <section id="projects" class="py-20 sm:py-28">
+      <p class="eyebrow">02 — Proyectos</p>
+      <div class="mt-4 flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <h2 class="section-title">Proyectos relevantes</h2>
+        <p class="text-sm copy md:text-right">Abre un proyecto para ver sus métricas, etapas y código.</p>
       </div>
 
-      <!-- Contenedor con todos los 6 proyectos pre-renderizados -->
-      <div id="projects-container" class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        
-        <!-- PROYECTO 1: Olist Growth Engine -->
-        <article class="project-card group relative bg-brand-surface/90 backdrop-blur-sm border border-brand-border hover:border-brand-accent/60 rounded-xl p-7 transition-all duration-300 hover:shadow-2xl hover:shadow-brand-accent/5 flex flex-col justify-between cursor-pointer" data-project-id="olist-growth-engine">
-          <div>
-            <div class="flex items-center justify-between gap-2 mb-4 text-xs font-mono">
-              <span class="inline-flex items-center gap-1.5 text-brand-accent bg-brand-accent/10 px-2.5 py-1 rounded-md border border-brand-accent/20">
-                <span class="w-1.5 h-1.5 rounded-full bg-brand-accent animate-pulse"></span>
-                MLOps & Pricing Dinámico
-              </span>
-              <span class="text-brand-muted/70 tracking-wider font-mono">2026</span>
-            </div>
-            <h3 class="text-2xl font-serif font-bold text-white group-hover:text-brand-accent transition-colors mb-2">
-              Olist Growth Engine (Predicción de Abandono y Precios)
-            </h3>
-            <p class="text-xs font-mono text-brand-muted/80 uppercase tracking-wider mb-4">
-              Data Science · Machine Learning SaaS
-            </p>
-            <p class="text-brand-muted text-sm leading-relaxed mb-6 font-light">
-              Modelo SaaS predictivo integral para pronosticar el abandono de clientes (churn) y generar estrategias de precios dinámicos.
-            </p>
-            <div class="bg-black/40 border border-white/5 rounded-lg px-3.5 py-2.5 mb-6 font-mono text-xs text-brand-accent/90 flex items-center justify-between overflow-x-auto">
-              <span class="text-[11px] text-brand-muted uppercase tracking-wider font-semibold">Obj. Fn:</span>
-              <span class="truncate ml-2 text-slate-300">\min_w \sum \mathcal{L}_{\text{cost}}(y_i, \hat{y}_i) + \lambda \|w\|_2^2</span>
-            </div>
-          </div>
-          <div>
-            <div class="grid grid-cols-2 gap-2 mb-6">
-              <div class="bg-brand-bg/80 border border-white/5 rounded-lg p-2.5">
-                <div class="text-[10px] uppercase tracking-wider text-brand-muted font-mono">ROC-AUC Score</div>
-                <div class="text-base font-mono font-bold text-white flex items-baseline gap-1 mt-0.5">
-                  0.892 <span class="text-[10px] text-emerald-400 font-normal font-sans">+0.14</span>
-                </div>
-              </div>
-              <div class="bg-brand-bg/80 border border-white/5 rounded-lg p-2.5">
-                <div class="text-[10px] uppercase tracking-wider text-brand-muted font-mono">Latencia Inferencia</div>
-                <div class="text-base font-mono font-bold text-white flex items-baseline gap-1 mt-0.5">
-                  &lt; 38 ms <span class="text-[10px] text-emerald-400 font-normal font-sans">En vivo</span>
-                </div>
-              </div>
-            </div>
-            <div class="flex flex-wrap gap-1.5 mb-5">
-              <span class="text-[11px] font-mono px-2 py-0.5 bg-white/5 text-slate-300 border border-white/5 rounded">Python</span>
-              <span class="text-[11px] font-mono px-2 py-0.5 bg-white/5 text-slate-300 border border-white/5 rounded">PostgreSQL</span>
-              <span class="text-[11px] font-mono px-2 py-0.5 bg-white/5 text-slate-300 border border-white/5 rounded">Streamlit</span>
-              <span class="text-[11px] font-mono px-2 py-0.5 bg-white/5 text-slate-300 border border-white/5 rounded">LightGBM</span>
-            </div>
-            <div class="pt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono">
-              <span class="text-brand-accent group-hover:translate-x-1 transition-transform inline-flex items-center gap-1.5 font-medium">
-                Inspeccionar detalles & pipeline →
-              </span>
-              <span class="text-brand-muted/50">EXP-01</span>
-            </div>
-          </div>
-        </article>
-
-        <!-- PROYECTO 2: Optimización de Carteras con Metaheurísticas -->
-        <article class="project-card group relative bg-brand-surface/90 backdrop-blur-sm border border-brand-border hover:border-brand-accent/60 rounded-xl p-7 transition-all duration-300 hover:shadow-2xl hover:shadow-brand-accent/5 flex flex-col justify-between cursor-pointer" data-project-id="portfolio-optimization-metaheuristics">
-          <div>
-            <div class="flex items-center justify-between gap-2 mb-4 text-xs font-mono">
-              <span class="inline-flex items-center gap-1.5 text-brand-accent bg-brand-accent/10 px-2.5 py-1 rounded-md border border-brand-accent/20">
-                <span class="w-1.5 h-1.5 rounded-full bg-brand-accent animate-pulse"></span>
-                HPC & Algoritmos Evolutivos
-              </span>
-              <span class="text-brand-muted/70 tracking-wider font-mono">2025 - 2026</span>
-            </div>
-            <h3 class="text-2xl font-serif font-bold text-white group-hover:text-brand-accent transition-colors mb-2">
-              Optimización de Carteras Financieras mediante Metaheurísticas
-            </h3>
-            <p class="text-xs font-mono text-brand-muted/80 uppercase tracking-wider mb-4">
-              FinTech · Algoritmia C++ · Optimización
-            </p>
-            <p class="text-brand-muted text-sm leading-relaxed mb-6 font-light">
-              Diseño de algoritmos evolutivos y meméticos avanzados (AGG, AGE, AM) desde cero para problemas de carteras con altas restricciones.
-            </p>
-            <div class="bg-black/40 border border-white/5 rounded-lg px-3.5 py-2.5 mb-6 font-mono text-xs text-brand-accent/90 flex items-center justify-between overflow-x-auto">
-              <span class="text-[11px] text-brand-muted uppercase tracking-wider font-semibold">Obj. Fn:</span>
-              <span class="truncate ml-2 text-slate-300">\max (w^T \mu - r_f) / \sqrt{w^T \Sigma w}</span>
-            </div>
-          </div>
-          <div>
-            <div class="grid grid-cols-2 gap-2 mb-6">
-              <div class="bg-brand-bg/80 border border-white/5 rounded-lg p-2.5">
-                <div class="text-[10px] uppercase tracking-wider text-brand-muted font-mono">Ratio de Sharpe</div>
-                <div class="text-base font-mono font-bold text-white flex items-baseline gap-1 mt-0.5">
-                  1.84 <span class="text-[10px] text-emerald-400 font-normal font-sans">vs 1.42</span>
-                </div>
-              </div>
-              <div class="bg-brand-bg/80 border border-white/5 rounded-lg p-2.5">
-                <div class="text-[10px] uppercase tracking-wider text-brand-muted font-mono">Tiempo Cómputo</div>
-                <div class="text-base font-mono font-bold text-white flex items-baseline gap-1 mt-0.5">
-                  240 ms <span class="text-[10px] text-emerald-400 font-normal font-sans">C++ multihilo</span>
-                </div>
-              </div>
-            </div>
-            <div class="flex flex-wrap gap-1.5 mb-5">
-              <span class="text-[11px] font-mono px-2 py-0.5 bg-white/5 text-slate-300 border border-white/5 rounded">C++</span>
-              <span class="text-[11px] font-mono px-2 py-0.5 bg-white/5 text-slate-300 border border-white/5 rounded">Metaheurísticas</span>
-              <span class="text-[11px] font-mono px-2 py-0.5 bg-white/5 text-slate-300 border border-white/5 rounded">AGG / AGE / AM</span>
-              <span class="text-[11px] font-mono px-2 py-0.5 bg-white/5 text-slate-300 border border-white/5 rounded">FinTech</span>
-            </div>
-            <div class="pt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono">
-              <span class="text-brand-accent group-hover:translate-x-1 transition-transform inline-flex items-center gap-1.5 font-medium">
-                Inspeccionar detalles & pipeline →
-              </span>
-              <span class="text-brand-muted/50">EXP-02</span>
-            </div>
-          </div>
-        </article>
-
-        <!-- PROYECTO 3: EKIS Base de Datos de Grafos -->
-        <article class="project-card group relative bg-brand-surface/90 backdrop-blur-sm border border-brand-border hover:border-brand-accent/60 rounded-xl p-7 transition-all duration-300 hover:shadow-2xl hover:shadow-brand-accent/5 flex flex-col justify-between cursor-pointer" data-project-id="ekis-graph-social-network">
-          <div>
-            <div class="flex items-center justify-between gap-2 mb-4 text-xs font-mono">
-              <span class="inline-flex items-center gap-1.5 text-brand-accent bg-brand-accent/10 px-2.5 py-1 rounded-md border border-brand-accent/20">
-                <span class="w-1.5 h-1.5 rounded-full bg-brand-accent animate-pulse"></span>
-                Big Data & Modelado Ontológico
-              </span>
-              <span class="text-brand-muted/70 tracking-wider font-mono">2025</span>
-            </div>
-            <h3 class="text-2xl font-serif font-bold text-white group-hover:text-brand-accent transition-colors mb-2">
-              EKIS: Base de Datos de Grafos y Red Social
-            </h3>
-            <p class="text-xs font-mono text-brand-muted/80 uppercase tracking-wider mb-4">
-              Graph Data Science · Neo4j · Arquitectura de Datos
-            </p>
-            <p class="text-brand-muted text-sm leading-relaxed mb-6 font-light">
-              Modelado e implementación de una red social mediante bases de datos orientadas a grafos con formulación estricta de restricciones.
-            </p>
-            <div class="bg-black/40 border border-white/5 rounded-lg px-3.5 py-2.5 mb-6 font-mono text-xs text-brand-accent/90 flex items-center justify-between overflow-x-auto">
-              <span class="text-[11px] text-brand-muted uppercase tracking-wider font-semibold">Obj. Fn:</span>
-              <span class="truncate ml-2 text-slate-300">G = (V, E, P), Centrality(u) = \sum \sigma_{st}(u)/\sigma_{st}</span>
-            </div>
-          </div>
-          <div>
-            <div class="grid grid-cols-2 gap-2 mb-6">
-              <div class="bg-brand-bg/80 border border-white/5 rounded-lg p-2.5">
-                <div class="text-[10px] uppercase tracking-wider text-brand-muted font-mono">Latencia en Hops</div>
-                <div class="text-base font-mono font-bold text-white flex items-baseline gap-1 mt-0.5">
-                  &lt; 18 ms <span class="text-[10px] text-emerald-400 font-normal font-sans">3+ saltos</span>
-                </div>
-              </div>
-              <div class="bg-brand-bg/80 border border-white/5 rounded-lg p-2.5">
-                <div class="text-[10px] uppercase tracking-wider text-brand-muted font-mono">Aristas Indexadas</div>
-                <div class="text-base font-mono font-bold text-white flex items-baseline gap-1 mt-0.5">
-                  1.2M+ <span class="text-[10px] text-emerald-400 font-normal font-sans">Relaciones</span>
-                </div>
-              </div>
-            </div>
-            <div class="flex flex-wrap gap-1.5 mb-5">
-              <span class="text-[11px] font-mono px-2 py-0.5 bg-white/5 text-slate-300 border border-white/5 rounded">Neo4j</span>
-              <span class="text-[11px] font-mono px-2 py-0.5 bg-white/5 text-slate-300 border border-white/5 rounded">Cypher</span>
-              <span class="text-[11px] font-mono px-2 py-0.5 bg-white/5 text-slate-300 border border-white/5 rounded">Graph Data Science</span>
-              <span class="text-[11px] font-mono px-2 py-0.5 bg-white/5 text-slate-300 border border-white/5 rounded">LaTeX</span>
-            </div>
-            <div class="pt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono">
-              <span class="text-brand-accent group-hover:translate-x-1 transition-transform inline-flex items-center gap-1.5 font-medium">
-                Inspeccionar detalles & pipeline →
-              </span>
-              <span class="text-brand-muted/50">EXP-03</span>
-            </div>
-          </div>
-        </article>
-
-        <!-- PROYECTO 4: Prácticas de ML y Modelado Predictivo -->
-        <article class="project-card group relative bg-brand-surface/90 backdrop-blur-sm border border-brand-border hover:border-brand-accent/60 rounded-xl p-7 transition-all duration-300 hover:shadow-2xl hover:shadow-brand-accent/5 flex flex-col justify-between cursor-pointer" data-project-id="ml-predictive-modeling-practices">
-          <div>
-            <div class="flex items-center justify-between gap-2 mb-4 text-xs font-mono">
-              <span class="inline-flex items-center gap-1.5 text-brand-accent bg-brand-accent/10 px-2.5 py-1 rounded-md border border-brand-accent/20">
-                <span class="w-1.5 h-1.5 rounded-full bg-brand-accent animate-pulse"></span>
-                Supervised Learning & EDA
-              </span>
-              <span class="text-brand-muted/70 tracking-wider font-mono">2025 - 2026</span>
-            </div>
-            <h3 class="text-2xl font-serif font-bold text-white group-hover:text-brand-accent transition-colors mb-2">
-              Prácticas de Machine Learning y Modelado Predictivo
-            </h3>
-            <p class="text-xs font-mono text-brand-muted/80 uppercase tracking-wider mb-4">
-              Machine Learning · Modelado Estadístico
-            </p>
-            <p class="text-brand-muted text-sm leading-relaxed mb-6 font-light">
-              Desarrollo y entrenamiento de múltiples modelos de machine learning en diversos conjuntos de datos para clasificación y regresión.
-            </p>
-            <div class="bg-black/40 border border-white/5 rounded-lg px-3.5 py-2.5 mb-6 font-mono text-xs text-brand-accent/90 flex items-center justify-between overflow-x-auto">
-              <span class="text-[11px] text-brand-muted uppercase tracking-wider font-semibold">Obj. Fn:</span>
-              <span class="truncate ml-2 text-slate-300">\mathcal{L}(\theta) = \frac{1}{N} \sum \ell(y_i, f(x_i)) + \Omega(\theta)</span>
-            </div>
-          </div>
-          <div>
-            <div class="grid grid-cols-2 gap-2 mb-6">
-              <div class="bg-brand-bg/80 border border-white/5 rounded-lg p-2.5">
-                <div class="text-[10px] uppercase tracking-wider text-brand-muted font-mono">Pipelines Completos</div>
-                <div class="text-base font-mono font-bold text-white flex items-baseline gap-1 mt-0.5">
-                  100% <span class="text-[10px] text-emerald-400 font-normal font-sans">EDA + Model</span>
-                </div>
-              </div>
-              <div class="bg-brand-bg/80 border border-white/5 rounded-lg p-2.5">
-                <div class="text-[10px] uppercase tracking-wider text-brand-muted font-mono">Generalización</div>
-                <div class="text-base font-mono font-bold text-white flex items-baseline gap-1 mt-0.5">
-                  Validación <span class="text-[10px] text-emerald-400 font-normal font-sans">Cruzada</span>
-                </div>
-              </div>
-            </div>
-            <div class="flex flex-wrap gap-1.5 mb-5">
-              <span class="text-[11px] font-mono px-2 py-0.5 bg-white/5 text-slate-300 border border-white/5 rounded">Python</span>
-              <span class="text-[11px] font-mono px-2 py-0.5 bg-white/5 text-slate-300 border border-white/5 rounded">Scikit-learn</span>
-              <span class="text-[11px] font-mono px-2 py-0.5 bg-white/5 text-slate-300 border border-white/5 rounded">Pandas</span>
-              <span class="text-[11px] font-mono px-2 py-0.5 bg-white/5 text-slate-300 border border-white/5 rounded">NumPy</span>
-            </div>
-            <div class="pt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono">
-              <span class="text-brand-accent group-hover:translate-x-1 transition-transform inline-flex items-center gap-1.5 font-medium">
-                Inspeccionar detalles & pipeline →
-              </span>
-              <span class="text-brand-muted/50">EXP-04</span>
-            </div>
-          </div>
-        </article>
-
-        <!-- PROYECTO 5: Computación Avanzada y Teoría de la Complejidad -->
-        <article class="project-card group relative bg-brand-surface/90 backdrop-blur-sm border border-brand-border hover:border-brand-accent/60 rounded-xl p-7 transition-all duration-300 hover:shadow-2xl hover:shadow-brand-accent/5 flex flex-col justify-between cursor-pointer" data-project-id="advanced-computation-complexity">
-          <div>
-            <div class="flex items-center justify-between gap-2 mb-4 text-xs font-mono">
-              <span class="inline-flex items-center gap-1.5 text-brand-accent bg-brand-accent/10 px-2.5 py-1 rounded-md border border-brand-accent/20">
-                <span class="w-1.5 h-1.5 rounded-full bg-brand-accent animate-pulse"></span>
-                Lógica Formal & NP-Completitud
-              </span>
-              <span class="text-brand-muted/70 tracking-wider font-mono">2025</span>
-            </div>
-            <h3 class="text-2xl font-serif font-bold text-white group-hover:text-brand-accent transition-colors mb-2">
-              Computación Avanzada y Teoría de la Complejidad
-            </h3>
-            <p class="text-xs font-mono text-brand-muted/80 uppercase tracking-wider mb-4">
-              Ciencia de la Computación Teórica
-            </p>
-            <p class="text-brand-muted text-sm leading-relaxed mb-6 font-light">
-              Autoría de una demostración matemática formal que prueba la NP-Completitud de un problema computacional complejo.
-            </p>
-            <div class="bg-black/40 border border-white/5 rounded-lg px-3.5 py-2.5 mb-6 font-mono text-xs text-brand-accent/90 flex items-center justify-between overflow-x-auto">
-              <span class="text-[11px] text-brand-muted uppercase tracking-wider font-semibold">Obj. Fn:</span>
-              <span class="truncate ml-2 text-slate-300">A \le_p B, \quad f \in \text{PTIME}, \text{SPACE}(O(\log n))</span>
-            </div>
-          </div>
-          <div>
-            <div class="grid grid-cols-2 gap-2 mb-6">
-              <div class="bg-brand-bg/80 border border-white/5 rounded-lg p-2.5">
-                <div class="text-[10px] uppercase tracking-wider text-brand-muted font-mono">Demostración</div>
-                <div class="text-base font-mono font-bold text-white flex items-baseline gap-1 mt-0.5">
-                  NP-Completo <span class="text-[10px] text-emerald-400 font-normal font-sans">Formal</span>
-                </div>
-              </div>
-              <div class="bg-brand-bg/80 border border-white/5 rounded-lg p-2.5">
-                <div class="text-[10px] uppercase tracking-wider text-brand-muted font-mono">Espacio de Memoria</div>
-                <div class="text-base font-mono font-bold text-white flex items-baseline gap-1 mt-0.5">
-                  Espacio L <span class="text-[10px] text-emerald-400 font-normal font-sans">O(log n)</span>
-                </div>
-              </div>
-            </div>
-            <div class="flex flex-wrap gap-1.5 mb-5">
-              <span class="text-[11px] font-mono px-2 py-0.5 bg-white/5 text-slate-300 border border-white/5 rounded">Lógica Formal</span>
-              <span class="text-[11px] font-mono px-2 py-0.5 bg-white/5 text-slate-300 border border-white/5 rounded">NP-Completitud</span>
-              <span class="text-[11px] font-mono px-2 py-0.5 bg-white/5 text-slate-300 border border-white/5 rounded">Espacio L</span>
-              <span class="text-[11px] font-mono px-2 py-0.5 bg-white/5 text-slate-300 border border-white/5 rounded">LaTeX</span>
-            </div>
-            <div class="pt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono">
-              <span class="text-brand-accent group-hover:translate-x-1 transition-transform inline-flex items-center gap-1.5 font-medium">
-                Inspeccionar detalles & pipeline →
-              </span>
-              <span class="text-brand-muted/50">EXP-05</span>
-            </div>
-          </div>
-        </article>
-
-        <!-- PROYECTO 6: Monitorización de Sistemas y Observabilidad -->
-        <article class="project-card group relative bg-brand-surface/90 backdrop-blur-sm border border-brand-border hover:border-brand-accent/60 rounded-xl p-7 transition-all duration-300 hover:shadow-2xl hover:shadow-brand-accent/5 flex flex-col justify-between cursor-pointer" data-project-id="systems-monitoring-observability">
-          <div>
-            <div class="flex items-center justify-between gap-2 mb-4 text-xs font-mono">
-              <span class="inline-flex items-center gap-1.5 text-brand-accent bg-brand-accent/10 px-2.5 py-1 rounded-md border border-brand-accent/20">
-                <span class="w-1.5 h-1.5 rounded-full bg-brand-accent animate-pulse"></span>
-                Prometheus, Grafana & Linux
-              </span>
-              <span class="text-brand-muted/70 tracking-wider font-mono">2025</span>
-            </div>
-            <h3 class="text-2xl font-serif font-bold text-white group-hover:text-brand-accent transition-colors mb-2">
-              Monitorización de Sistemas y Observabilidad
-            </h3>
-            <p class="text-xs font-mono text-brand-muted/80 uppercase tracking-wider mb-4">
-              Infraestructura & DevOps
-            </p>
-            <p class="text-brand-muted text-sm leading-relaxed mb-6 font-light">
-              Configuración de pipelines de observabilidad con Prometheus y Grafana y automatización Bash en Linux.
-            </p>
-            <div class="bg-black/40 border border-white/5 rounded-lg px-3.5 py-2.5 mb-6 font-mono text-xs text-brand-accent/90 flex items-center justify-between overflow-x-auto">
-              <span class="text-[11px] text-brand-muted uppercase tracking-wider font-semibold">Obj. Fn:</span>
-              <span class="truncate ml-2 text-slate-300">\text{SLO} = \frac{\sum \text{Req}_{\text{good}}}{\sum \text{Req}_{\text{total}}} \ge 99.9\%</span>
-            </div>
-          </div>
-          <div>
-            <div class="grid grid-cols-2 gap-2 mb-6">
-              <div class="bg-brand-bg/80 border border-white/5 rounded-lg p-2.5">
-                <div class="text-[10px] uppercase tracking-wider text-brand-muted font-mono">Métricas en Vivo</div>
-                <div class="text-base font-mono font-bold text-white flex items-baseline gap-1 mt-0.5">
-                  Prometheus <span class="text-[10px] text-emerald-400 font-normal font-sans">Series</span>
-                </div>
-              </div>
-              <div class="bg-brand-bg/80 border border-white/5 rounded-lg p-2.5">
-                <div class="text-[10px] uppercase tracking-wider text-brand-muted font-mono">Visualización</div>
-                <div class="text-base font-mono font-bold text-white flex items-baseline gap-1 mt-0.5">
-                  Grafana <span class="text-[10px] text-emerald-400 font-normal font-sans">Paneles</span>
-                </div>
-              </div>
-            </div>
-            <div class="flex flex-wrap gap-1.5 mb-5">
-              <span class="text-[11px] font-mono px-2 py-0.5 bg-white/5 text-slate-300 border border-white/5 rounded">Prometheus</span>
-              <span class="text-[11px] font-mono px-2 py-0.5 bg-white/5 text-slate-300 border border-white/5 rounded">Grafana</span>
-              <span class="text-[11px] font-mono px-2 py-0.5 bg-white/5 text-slate-300 border border-white/5 rounded">Linux</span>
-              <span class="text-[11px] font-mono px-2 py-0.5 bg-white/5 text-slate-300 border border-white/5 rounded">Bash</span>
-            </div>
-            <div class="pt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono">
-              <span class="text-brand-accent group-hover:translate-x-1 transition-transform inline-flex items-center gap-1.5 font-medium">
-                Inspeccionar detalles & pipeline →
-              </span>
-              <span class="text-brand-muted/50">EXP-06</span>
-            </div>
-          </div>
-        </article>
-
+      <div id="projects-container" class="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <noscript>
+          <p class="text-sm copy">Activa JavaScript para explorar los proyectos, o visita <a class="text-brand-accent hover:underline" href="https://github.com/jesurod">github.com/jesurod</a>.</p>
+        </noscript>
       </div>
-
-      <!-- Barra de Paginación de Proyectos (4 proyectos por vista) -->
-      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-brand-border/60">
-        <div id="projects-counter-text" class="text-xs font-mono text-brand-muted">
-          Mostrando 1 - 4 de 7 proyectos
-        </div>
-
-        <div class="flex items-center gap-3">
-          <button 
-            id="projects-prev-btn" 
-            class="px-3.5 py-2 rounded-lg bg-brand-surface border border-brand-border text-xs font-mono text-brand-muted hover:text-white hover:border-brand-accent/50 flex items-center gap-1.5 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-            title="Página anterior"
-          >
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-            <span>Anterior</span>
-          </button>
-
-          <div id="projects-page-indicators" class="flex items-center gap-1.5">
-            <!-- Píldoras de página generadas por app.js -->
-          </div>
-
-          <button 
-            id="projects-next-btn" 
-            class="px-3.5 py-2 rounded-lg bg-brand-surface border border-brand-border text-xs font-mono text-brand-muted hover:text-white hover:border-brand-accent/50 flex items-center gap-1.5 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-            title="Página siguiente"
-          >
-            <span>Siguiente</span>
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-          </button>
-        </div>
-      </div>
-
     </section>
 
-    <!-- SECCIÓN STACK TÉCNICO & HABILIDADES -->
-    <section id="tech" class="space-y-12">
-      
-      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-brand-border pb-8">
-        <div>
-          <span class="text-xs font-mono text-brand-accent uppercase tracking-widest block mb-2">// 03. HABILIDADES TÉCNICAS</span>
-          <h2 class="text-3xl sm:text-4xl font-serif font-bold text-white">
-            Stack Tecnológico & Competencias
-          </h2>
-        </div>
-        <p class="text-sm font-mono text-brand-muted max-w-sm">
-          Herramientas y lenguajes verificados en mi experiencia académica y proyectos.
-        </p>
+    <!-- STACK -->
+    <section id="tech" class="py-20 sm:py-28">
+      <p class="eyebrow">03 — Stack</p>
+      <div class="mt-4 flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <h2 class="section-title">Stack y competencias</h2>
+        <p class="text-sm copy md:text-right md:max-w-xs">Herramientas y lenguajes usados en mi formación y proyectos.</p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        
-        <!-- Tarjeta 1: Lenguajes -->
-        <div class="bg-brand-surface border border-brand-border rounded-xl p-6 space-y-4">
-          <div class="w-9 h-9 rounded-lg bg-brand-accent/10 border border-brand-accent/20 flex items-center justify-center text-brand-accent">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
-          </div>
-          <h3 class="font-mono text-sm font-bold text-white uppercase tracking-wider">Lenguajes</h3>
-          <ul class="space-y-2 text-xs font-mono text-brand-muted">
-            <li class="flex items-center justify-between text-slate-300"><span>Python</span> <span class="text-[10px] text-brand-accent">Dominio Alto</span></li>
-            <li class="flex items-center justify-between text-slate-300"><span>SQL</span> <span class="text-[10px] text-brand-accent">PostgreSQL</span></li>
-            <li class="flex items-center justify-between text-slate-300"><span>C++ / C</span> <span class="text-[10px] text-brand-accent">Algoritmia / HPC</span></li>
-            <li class="flex items-center justify-between"><span>Java</span> <span>Sistemas</span></li>
-            <li class="flex items-center justify-between"><span>Bash</span> <span>Automatización</span></li>
-            <li class="flex items-center justify-between"><span>Cypher</span> <span>Grafos Neo4j</span></li>
+      <div class="panel mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 lg:divide-x divide-white/[0.08]">
+        <div class="p-6 sm:p-7">
+          <h3 class="eyebrow">Lenguajes</h3>
+          <ul class="stack-list">
+            <li><span>Python</span><span>Datos y ML</span></li>
+            <li><span>SQL</span><span>PostgreSQL</span></li>
+            <li><span>C++ / C</span><span>Algoritmia</span></li>
+            <li><span>Java</span><span>Sistemas</span></li>
+            <li><span>Bash</span><span>Automatización</span></li>
+            <li><span>Cypher</span><span>Neo4j</span></li>
           </ul>
         </div>
-
-        <!-- Tarjeta 2: Data & ML -->
-        <div class="bg-brand-surface border border-brand-border rounded-xl p-6 space-y-4">
-          <div class="w-9 h-9 rounded-lg bg-brand-amber/10 border border-brand-amber/20 flex items-center justify-center text-brand-amber">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-          </div>
-          <h3 class="font-mono text-sm font-bold text-white uppercase tracking-wider">Ciencia de Datos & ML</h3>
-          <ul class="space-y-2 text-xs font-mono text-brand-muted">
-            <li class="text-slate-300">Preprocesamiento & EDA</li>
-            <li class="text-slate-300">Modelado Predictivo</li>
-            <li>Redes Neuronales</li>
-            <li>Pandas & Scikit-learn</li>
-            <li>Pipelines End-to-End</li>
-            <li>Streamlit Dashboards</li>
+        <div class="p-6 sm:p-7">
+          <h3 class="eyebrow !text-brand-amber">Datos y ML</h3>
+          <ul class="stack-list">
+            <li>Preprocesamiento y EDA</li>
+            <li>Modelado predictivo</li>
+            <li>Redes neuronales</li>
+            <li>Pandas y Scikit-learn</li>
+            <li>Pipelines end-to-end</li>
+            <li>Dashboards en Streamlit</li>
           </ul>
         </div>
-
-        <!-- Tarjeta 3: Algoritmos & Matemáticas -->
-        <div class="bg-brand-surface border border-brand-border rounded-xl p-6 space-y-4">
-          <div class="w-9 h-9 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
-          </div>
-          <h3 class="font-mono text-sm font-bold text-white uppercase tracking-wider">Algoritmos & Matemáticas</h3>
-          <ul class="space-y-2 text-xs font-mono text-brand-muted">
-            <li class="text-slate-300">Metaheurísticas (AGG, AGE, AM)</li>
-            <li class="text-slate-300">Teoría de la Complejidad (NP-C)</li>
-            <li>Espacio L y Límites de Cómputo</li>
-            <li>Estadística & Probabilidad</li>
-            <li>Finanzas Corporativas & Carteras</li>
-            <li>Demostraciones Matemáticas</li>
+        <div class="p-6 sm:p-7">
+          <h3 class="eyebrow !text-emerald-400">Algoritmos y mates</h3>
+          <ul class="stack-list">
+            <li>Metaheurísticas (AGG, AGE, AM)</li>
+            <li>Teoría de la complejidad</li>
+            <li>Espacio L y límites de cómputo</li>
+            <li>Estadística y probabilidad</li>
+            <li>Finanzas corporativas y carteras</li>
+            <li>Demostraciones matemáticas</li>
           </ul>
         </div>
-
-        <!-- Tarjeta 4: Infraestructura & Idiomas -->
-        <div class="bg-brand-surface border border-brand-border rounded-xl p-6 space-y-4">
-          <div class="w-9 h-9 rounded-lg bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"/></svg>
-          </div>
-          <h3 class="font-mono text-sm font-bold text-white uppercase tracking-wider">Infraestructura & Idiomas</h3>
-          <ul class="space-y-2 text-xs font-mono text-brand-muted">
-            <li class="text-slate-300">Linux (Arch, Ubuntu)</li>
-            <li class="text-slate-300">Docker & Contenedores</li>
-            <li>Prometheus & Grafana</li>
-            <li>Git & Control de Versiones</li>
-            <li class="text-brand-accent pt-1">Inglés: C1 Advanced (Cambridge)</li>
-            <li class="text-slate-300">Español: Nativo</li>
+        <div class="p-6 sm:p-7">
+          <h3 class="eyebrow !text-slate-300">Infraestructura e idiomas</h3>
+          <ul class="stack-list">
+            <li>Linux (Arch, Ubuntu)</li>
+            <li>Docker y contenedores</li>
+            <li>Prometheus y Grafana</li>
+            <li>Git</li>
+            <li>Inglés: C1 Advanced (Cambridge)</li>
+            <li>Español: nativo</li>
           </ul>
         </div>
-
       </div>
-
     </section>
 
-    <!-- SECCIÓN CURRÍCULUM VITAE (CV) UNIFICADO CON DOCUMENTOS REALES EN PDF -->
-    <section id="cv" class="bg-gradient-to-br from-brand-surface to-brand-bg border border-brand-border rounded-3xl p-8 sm:p-12 relative overflow-hidden">
-      
-      <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
-        <div class="max-w-xl space-y-4">
-          <div class="inline-flex items-center gap-2 text-xs font-mono text-brand-accent uppercase tracking-wider">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
-            <span>DOCUMENTACIÓN OFICIAL · CV VERIFICADO</span>
-          </div>
+    <!-- CV -->
+    <section id="cv" class="py-20 sm:py-28 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      <div class="lg:col-span-7">
+        <p class="eyebrow">04 — Currículum</p>
+        <h2 class="section-title mt-4">Currículum Vitae</h2>
+        <p class="mt-5 max-w-xl copy text-[17px]">Formación en computación avanzada y ADE en la Universidad de Granada, habilidades técnicas y proyectos relevantes. Disponible en español y en inglés.</p>
+        <p class="mt-4 font-mono text-xs text-brand-muted">Nota media 8.5/10 · Graduación prevista junio 2027 · Cambridge C1 Advanced</p>
 
-          <h2 class="text-3xl sm:text-4xl font-serif font-bold text-white">
-            Currículum Vitae Oficial (PDF)
-          </h2>
-
-          <p class="text-brand-muted text-sm leading-relaxed font-light">
-            Consulta mi expediente académico oficial en la Universidad de Granada (Nota media: 8.5/10), formación en computación avanzada y ADE, habilidades técnicas y proyectos relevantes. Accede a tu versión oficial tanto en español como en inglés.
-          </p>
-
-          <div class="flex flex-wrap items-center gap-3 pt-3">
-            <!-- Botón Visor PDF Bilingüe -->
-            <button 
-              class="trigger-cv-modal inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-brand-accent text-brand-bg font-mono text-xs font-bold hover:bg-cyan-300 transition-colors shadow-lg shadow-brand-accent/10"
-              data-cv-lang="es"
-            >
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
-              <span>Abrir Visor de CV Oficial</span>
-            </button>
-
-            <!-- Descarga Español -->
-            <a 
-              href="assets/docs/CV_Jesus_Rodriguez_Gonzalez_ES.pdf" 
-              download="CV_Jesus_Rodriguez_Gonzalez_ES.pdf"
-              class="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-brand-surface border border-brand-border text-white hover:border-brand-accent/60 font-mono text-xs transition-colors"
-            >
-              <svg class="w-3.5 h-3.5 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-              <span>Descargar PDF (ES)</span>
-            </a>
-
-            <!-- Descarga English -->
-            <a 
-              href="assets/docs/CV_Jesus_Rodriguez_Gonzalez_EN.pdf" 
-              download="CV_Jesus_Rodriguez_Gonzalez_EN.pdf"
-              class="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-brand-surface border border-brand-border text-white hover:border-brand-accent/60 font-mono text-xs transition-colors"
-            >
-              <svg class="w-3.5 h-3.5 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-              <span>Download PDF (EN)</span>
-            </a>
-          </div>
-        </div>
-
-        <!-- Mini Preview Visual del CV -->
-        <div class="w-full lg:w-80 bg-brand-bg border border-brand-border rounded-xl p-5 font-mono text-xs text-brand-muted space-y-3">
-          <div class="flex justify-between items-center pb-2 border-b border-brand-border">
-            <span class="text-white font-bold">JESÚS RODRÍGUEZ</span>
-            <span class="text-[10px] text-emerald-400">8.5 / 10 GPA</span>
-          </div>
-          <div class="space-y-1">
-            <div class="text-[11px] text-slate-300">Doble Grado Ing. Informática + ADE</div>
-            <div class="text-[10px] text-brand-muted">Univ. de Granada · Prev. Junio 2027</div>
-          </div>
-          <div class="pt-2 border-t border-brand-border/60 flex items-center justify-between text-[11px]">
-            <span>Cambridge English:</span>
-            <span class="text-brand-accent font-semibold">C1 Advanced</span>
-          </div>
-          <div class="flex items-center justify-between text-[10px] text-brand-muted pt-1">
-            <span>Teléfono verificado:</span>
-            <span class="text-slate-300 font-mono">+34 639 28 01 07</span>
-          </div>
+        <div class="mt-8 flex flex-wrap items-center gap-3">
+          <button type="button" class="trigger-cv-modal btn-solid" data-cv-lang="es">Abrir CV</button>
+          <a href="assets/docs/CV_Jesus_Rodriguez_Gonzalez_ES.pdf" download="CV_Jesus_Rodriguez_Gonzalez_ES.pdf" class="btn-outline">Descargar (ES)</a>
+          <a href="assets/docs/CV_Jesus_Rodriguez_Gonzalez_EN.pdf" download="CV_Jesus_Rodriguez_Gonzalez_EN.pdf" class="btn-outline">Download (EN)</a>
         </div>
       </div>
 
+      <div class="lg:col-span-5">
+        <button type="button" class="trigger-cv-modal group block w-full max-w-[340px] mx-auto lg:mr-0 h-72 overflow-hidden rounded-t-lg border border-b-0 border-white/10 relative" data-cv-lang="es" aria-label="Abrir el currículum en PDF">
+          <img src="assets/img/cv-preview.webp" alt="" width="720" height="1018" loading="lazy" class="w-full h-auto opacity-90 group-hover:opacity-100 transition-opacity" />
+          <span class="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-brand-bg to-transparent"></span>
+        </button>
+      </div>
     </section>
 
-    <!-- SECCIÓN CONTACTO & TELEMETRÍA PERSONAL -->
-    <section id="contact" class="space-y-12">
-      
-      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-brand-border pb-8">
-        <div>
-          <span class="text-xs font-mono text-brand-accent uppercase tracking-widest block mb-2">// 04. VECTOR DE COMUNICACIÓN</span>
-          <h2 class="text-3xl sm:text-4xl font-serif font-bold text-white">
-            ¿Iniciamos una conversación?
-          </h2>
+    <!-- CONTACTO -->
+    <section id="contact" class="py-20 sm:py-28 grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+      <div class="lg:col-span-6">
+        <p class="eyebrow">05 — Contacto</p>
+        <h2 class="section-title mt-4">¿Iniciamos una conversación?</h2>
+        <p class="mt-5 max-w-md copy text-[17px]">Abierto a oportunidades en Data Science, ingeniería de sistemas inteligentes y proyectos cuantitativos.</p>
+
+        <div class="mt-10 border-t border-white/10">
+          <div class="py-5 flex flex-wrap items-center justify-between gap-3 border-b border-white/10">
+            <a href="mailto:jesurod24@gmail.com" class="font-serif text-2xl text-white hover:text-brand-accent transition-colors">jesurod24@gmail.com</a>
+            <button type="button" data-copy-target="jesurod24@gmail.com" data-copy-label="Correo copiado" class="font-mono text-xs text-brand-muted hover:text-brand-accent transition-colors">Copiar</button>
+          </div>
+          <a href="https://www.linkedin.com/in/jes%C3%BAs-rodr%C3%ADguez-gonz%C3%A1lez-233b89281/" target="_blank" rel="noopener noreferrer" class="py-4 flex items-center justify-between border-b border-white/10 text-slate-300 hover:text-white transition-colors">
+            <span>LinkedIn</span><span aria-hidden="true">↗</span>
+          </a>
+          <a href="https://github.com/jesurod" target="_blank" rel="noopener noreferrer" class="py-4 flex items-center justify-between border-b border-white/10 text-slate-300 hover:text-white transition-colors">
+            <span>github.com/jesurod</span><span aria-hidden="true">↗</span>
+          </a>
         </div>
-        <p class="text-sm font-mono text-brand-muted max-w-sm">
-          Abierto a oportunidades en Data Science, ingeniería de sistemas inteligentes y proyectos cuantitativos.
-        </p>
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        
-        <!-- Tarjetas de Información Directa y Copiado -->
-        <div class="lg:col-span-6 space-y-4">
-          
-          <!-- Teléfono Oficial: 639280107 -->
-          <div class="bg-brand-surface border border-brand-border rounded-2xl p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div class="flex items-center gap-4">
-              <div class="w-12 h-12 rounded-xl bg-brand-accent/10 border border-brand-accent/20 flex items-center justify-center text-brand-accent shrink-0">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
-              </div>
-              <div>
-                <span class="text-xs font-mono text-brand-muted uppercase block">Teléfono Móvil</span>
-                <a href="tel:+34639280107" class="text-base font-mono font-bold text-white hover:text-brand-accent transition-colors">
-                  +34 639 28 01 07
-                </a>
-              </div>
-            </div>
+      <div class="lg:col-span-6 panel p-6 sm:p-8">
+        <h3 class="font-serif text-2xl text-white">Enviar un mensaje</h3>
+        <p class="mt-1 text-sm copy">Genera un correo listo para enviar desde tu cliente de correo.</p>
 
-            <div class="flex items-center gap-2">
-              <button 
-                data-copy-target="+34639280107"
-                data-copy-label="Teléfono copiado: +34 639 28 01 07"
-                class="px-3.5 py-2 rounded-lg bg-brand-bg border border-brand-border hover:border-brand-accent/50 text-xs font-mono text-slate-300 hover:text-brand-accent transition-all flex items-center gap-1.5"
-                title="Copiar número"
-              >
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
-                <span>Copiar</span>
-              </button>
-              <a 
-                href="tel:+34639280107"
-                class="px-3.5 py-2 rounded-lg bg-brand-accent text-brand-bg text-xs font-mono font-bold hover:bg-cyan-300 transition-colors"
-              >
-                Llamar
-              </a>
-            </div>
-          </div>
-
-          <!-- Email con copiado -->
-          <div class="bg-brand-surface border border-brand-border rounded-2xl p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div class="flex items-center gap-4">
-              <div class="w-12 h-12 rounded-xl bg-brand-amber/10 border border-brand-amber/20 flex items-center justify-center text-brand-amber shrink-0">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-              </div>
-              <div>
-                <span class="text-xs font-mono text-brand-muted uppercase block">Correo Electrónico</span>
-                <a href="mailto:jesurod24@gmail.com" class="text-base font-mono font-bold text-white hover:text-brand-accent transition-colors">
-                  jesurod24@gmail.com
-                </a>
-              </div>
-            </div>
-
-            <div class="flex items-center gap-2">
-              <button 
-                data-copy-target="jesurod24@gmail.com"
-                data-copy-label="Correo copiado: jesurod24@gmail.com"
-                class="px-3.5 py-2 rounded-lg bg-brand-bg border border-brand-border hover:border-brand-accent/50 text-xs font-mono text-slate-300 hover:text-brand-accent transition-all flex items-center gap-1.5"
-                title="Copiar email"
-              >
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
-                <span>Copiar</span>
-              </button>
-              <a 
-                href="mailto:jesurod24@gmail.com"
-                class="px-3.5 py-2 rounded-lg bg-brand-surface border border-white/10 text-white text-xs font-mono hover:text-brand-accent transition-colors"
-              >
-                Escribir
-              </a>
-            </div>
-          </div>
-
-          <!-- Redes Profesionales: LinkedIn & GitHub -->
-          <div class="grid grid-cols-2 gap-4">
-            <a 
-              href="https://www.linkedin.com/in/jes%C3%BAs-rodr%C3%ADguez-gonz%C3%A1lez-233b89281/" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              class="bg-brand-surface border border-brand-border hover:border-brand-accent/50 rounded-2xl p-5 flex items-center gap-3 transition-all group"
-            >
-              <div class="w-10 h-10 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 group-hover:bg-blue-500 group-hover:text-white transition-colors">
-                <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.738-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-              </div>
-              <div>
-                <span class="text-xs font-mono text-brand-muted block">Red Profesional</span>
-                <span class="text-sm font-semibold text-white group-hover:text-brand-accent transition-colors">LinkedIn ↗</span>
-              </div>
-            </a>
-
-            <a 
-              href="https://github.com/jesurod" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              class="bg-brand-surface border border-brand-border hover:border-brand-accent/50 rounded-2xl p-5 flex items-center gap-3 transition-all group"
-            >
-              <div class="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-white group-hover:bg-white group-hover:text-black transition-colors">
-                <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
-              </div>
-              <div>
-                <span class="text-xs font-mono text-brand-muted block">Perfil GitHub</span>
-                <span class="text-sm font-semibold text-white group-hover:text-brand-accent transition-colors">github.com/jesurod ↗</span>
-              </div>
-            </a>
-          </div>
-
-        </div>
-
-        <!-- Formulario Rápido de Contacto -->
-        <div class="lg:col-span-6 bg-brand-surface border border-brand-border rounded-2xl p-6 sm:p-8">
-          <h3 class="text-xl font-serif font-bold text-white mb-2">Enviar Mensaje Directo</h3>
-          <p class="text-xs font-mono text-brand-muted mb-6">Genera un correo preformateado listo para enviar desde tu cliente de correo.</p>
-
-          <form id="quick-contact-form" class="space-y-4">
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label for="contact-name" class="block text-xs font-mono text-brand-muted uppercase mb-1">Nombre</label>
-                <input 
-                  type="text" 
-                  id="contact-name" 
-                  required 
-                  placeholder="Tu nombre o empresa" 
-                  class="w-full bg-brand-bg border border-brand-border focus:border-brand-accent rounded-lg px-3.5 py-2.5 text-xs text-white focus:outline-none transition-colors"
-                />
-              </div>
-              <div>
-                <label for="contact-company" class="block text-xs font-mono text-brand-muted uppercase mb-1">Organización</label>
-                <input 
-                  type="text" 
-                  id="contact-company" 
-                  placeholder="Empresa o institución" 
-                  class="w-full bg-brand-bg border border-brand-border focus:border-brand-accent rounded-lg px-3.5 py-2.5 text-xs text-white focus:outline-none transition-colors"
-                />
-              </div>
-            </div>
-
+        <form id="quick-contact-form" class="mt-6 space-y-5">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <div>
-              <label for="contact-subject" class="block text-xs font-mono text-brand-muted uppercase mb-1">Asunto</label>
-              <input 
-                type="text" 
-                id="contact-subject" 
-                placeholder="Ej. Oportunidad profesional / Proyecto de datos" 
-                class="w-full bg-brand-bg border border-brand-border focus:border-brand-accent rounded-lg px-3.5 py-2.5 text-xs text-white focus:outline-none transition-colors"
-              />
+              <label for="contact-name" class="field-label">Nombre</label>
+              <input type="text" id="contact-name" autocomplete="name" required placeholder="Tu nombre" class="field-input" />
             </div>
-
             <div>
-              <label for="contact-message" class="block text-xs font-mono text-brand-muted uppercase mb-1">Mensaje</label>
-              <textarea 
-                id="contact-message" 
-                rows="4" 
-                required 
-                placeholder="Describe brevemente el contexto de la propuesta..." 
-                class="w-full bg-brand-bg border border-brand-border focus:border-brand-accent rounded-lg px-3.5 py-2.5 text-xs text-white focus:outline-none transition-colors resize-none"
-              ></textarea>
+              <label for="contact-company" class="field-label">Organización</label>
+              <input type="text" id="contact-company" autocomplete="organization" placeholder="Empresa o institución" class="field-input" />
             </div>
-
-            <button 
-              type="submit" 
-              class="w-full py-3 rounded-xl bg-brand-accent text-brand-bg font-mono text-xs font-bold hover:bg-cyan-300 transition-colors flex items-center justify-center gap-2"
-            >
-              <span>Preparar Correo Electrónico</span>
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-            </button>
-          </form>
-        </div>
-
+          </div>
+          <div>
+            <label for="contact-subject" class="field-label">Asunto</label>
+            <input type="text" id="contact-subject" placeholder="Oportunidad profesional, proyecto de datos…" class="field-input" />
+          </div>
+          <div>
+            <label for="contact-message" class="field-label">Mensaje</label>
+            <textarea id="contact-message" rows="4" required placeholder="Describe brevemente el contexto…" class="field-input resize-none"></textarea>
+          </div>
+          <button type="submit" class="btn-solid w-full justify-center">Preparar correo</button>
+        </form>
       </div>
-
     </section>
-
   </main>
 
-  <!-- PIE DE PÁGINA -->
-  <footer class="relative z-10 border-t border-brand-border bg-brand-surface/80 py-10">
-    <div class="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-brand-muted">
-      <div>
-        &copy; 2026 Jesús Rodríguez González · Granada, España
-      </div>
-      <div class="flex items-center gap-6">
-        <span>Loss Surface: Multimodal Potential Field & SGD</span>
+  <footer class="relative z-10 border-t border-white/[0.07] bg-brand-bg/80">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-3 font-mono text-xs text-brand-muted">
+      <span>&copy; 2026 Jesús Rodríguez González · Granada</span>
+      <span class="flex items-center gap-6">
+        <span class="hidden md:inline">θ* alcanzado</span>
         <a href="#" class="text-brand-accent hover:underline">Volver arriba ↑</a>
-      </div>
+      </span>
     </div>
   </footer>
 
-  <!-- ========================================================================== -->
-  <!-- MODAL / DRAWER: INSPECTOR DE PROYECTOS (TELEMETRÍA + PIPELINE + GITHUB)    -->
-  <!-- ========================================================================== -->
-  <div id="project-backdrop" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden opacity-0 transition-opacity duration-300"></div>
+  <!-- INSPECTOR DE PROYECTOS -->
+  <div id="project-backdrop" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity duration-300"></div>
 
-  <div 
-    id="project-drawer" 
-    class="fixed top-0 right-0 h-full w-full max-w-2xl bg-brand-surface border-l border-brand-border z-50 translate-x-full transition-transform duration-300 ease-out flex flex-col shadow-2xl overflow-hidden"
-  >
-    <!-- Drawer Header -->
-    <div class="p-6 border-b border-brand-border bg-brand-bg/95 flex items-start justify-between gap-4">
+  <div id="project-drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-project-title" class="hidden fixed top-0 right-0 h-full w-full max-w-2xl bg-brand-surface border-l border-white/10 z-50 translate-x-full transition-transform duration-300 ease-out flex flex-col overflow-hidden">
+    <div class="p-6 sm:px-8 border-b border-white/10 flex items-start justify-between gap-4">
       <div>
-        <div class="flex items-center gap-2 mb-2">
-          <span id="drawer-project-badge" class="text-[11px] font-mono px-2 py-0.5 rounded bg-brand-accent/10 border border-brand-accent/20 text-brand-accent"></span>
-          <span id="drawer-project-category" class="text-xs font-mono text-brand-muted"></span>
-        </div>
-        <h3 id="drawer-project-title" class="text-2xl font-serif font-bold text-white leading-tight"></h3>
-        <p id="drawer-project-tagline" class="text-xs text-brand-muted mt-1 font-light"></p>
+        <p class="font-mono text-xs text-brand-accent"><span id="drawer-project-badge"></span> <span class="text-brand-muted">· <span id="drawer-project-category"></span></span></p>
+        <h3 id="drawer-project-title" class="mt-2 text-3xl font-serif font-medium text-white leading-tight"></h3>
+        <p id="drawer-project-tagline" class="mt-2 text-sm copy"></p>
+        <button id="copy-project-link-btn" type="button" class="mt-3 font-mono text-xs text-brand-accent hover:underline">Copiar enlace directo</button>
       </div>
 
       <div class="flex items-center gap-2 shrink-0">
-        <!-- Enlace Directo a GitHub -->
-        <a 
-          id="drawer-github-link" 
-          href="#" 
-          target="_blank" 
-          rel="noopener noreferrer"
-          class="p-2.5 rounded-lg bg-white/5 border border-white/10 hover:border-brand-accent text-white hover:text-brand-accent transition-colors flex items-center gap-2 text-xs font-mono"
-          title="Ver código en GitHub"
-        >
-          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+        <a id="drawer-github-link" href="#" target="_blank" rel="noopener noreferrer" class="p-2.5 rounded-md border border-white/10 hover:border-brand-accent text-white hover:text-brand-accent transition-colors flex items-center gap-2 text-xs font-mono" title="Ver código en GitHub">
+          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
           <span class="hidden sm:inline">GitHub ↗</span>
         </a>
-
-        <!-- Botón Cerrar -->
-        <button 
-          id="project-drawer-close" 
-          class="p-2.5 rounded-lg bg-white/5 border border-white/10 hover:border-red-400/50 text-brand-muted hover:text-white transition-colors"
-          title="Cerrar panel [ESC]"
-        >
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        <button id="project-drawer-close" class="p-2.5 rounded-md border border-white/10 hover:border-white/30 text-brand-muted hover:text-white transition-colors" title="Cerrar panel [ESC]" aria-label="Cerrar panel">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
       </div>
     </div>
 
-    <!-- Inspector Tabs -->
-    <div class="flex border-b border-brand-border bg-brand-bg px-6">
-      <button data-tab="overview" class="inspector-tab-btn py-3 px-4 text-xs font-mono font-medium border-b-2 text-brand-accent border-brand-accent transition-colors">
-        01. Análisis & Negocio
-      </button>
-      <button data-tab="pipeline" class="inspector-tab-btn py-3 px-4 text-xs font-mono font-medium border-b-2 text-brand-muted border-transparent hover:text-white transition-colors">
-        02. Pipeline DAG
-      </button>
-      <button data-tab="code" class="inspector-tab-btn py-3 px-4 text-xs font-mono font-medium border-b-2 text-brand-muted border-transparent hover:text-white transition-colors">
-        03. Formulación & Código
-      </button>
+    <div role="tablist" aria-label="Secciones del proyecto" class="flex shrink-0 overflow-x-auto whitespace-nowrap border-b border-white/10 px-3 sm:px-5">
+      <button role="tab" aria-selected="true" data-tab="overview" class="inspector-tab-btn py-3 px-3 text-xs font-mono border-b-2 text-brand-accent border-brand-accent transition-colors">Análisis</button>
+      <button role="tab" aria-selected="false" data-tab="pipeline" class="inspector-tab-btn py-3 px-3 text-xs font-mono border-b-2 text-brand-muted border-transparent hover:text-white transition-colors">Etapas</button>
+      <button role="tab" aria-selected="false" data-tab="code" class="inspector-tab-btn py-3 px-3 text-xs font-mono border-b-2 text-brand-muted border-transparent hover:text-white transition-colors">Formulación y código</button>
     </div>
 
-    <!-- Drawer Content Scrollable Area -->
-    <div class="p-6 overflow-y-auto flex-1 space-y-6">
-
-      <!-- PANE 1: OVERVIEW & NEGOCIO -->
-      <div id="tab-content-overview" class="inspector-tab-content space-y-6">
-        
-        <!-- Key Metrics Cards -->
-        <div>
-          <div class="text-xs font-mono text-brand-accent uppercase tracking-wider mb-3">// TELEMETRÍA EMPÍRICA</div>
-          <div id="drawer-metrics-container" class="grid grid-cols-2 gap-3"></div>
+    <div class="p-6 sm:p-8 overflow-y-auto flex-1">
+      <div id="tab-content-overview" class="inspector-tab-content space-y-8">
+        <div id="drawer-metrics-container" class="grid grid-cols-2 gap-x-6 gap-y-6"></div>
+        <div class="border-t border-white/10 pt-6">
+          <h4 class="eyebrow">Resumen</h4>
+          <p id="drawer-project-abstract" class="mt-3 text-[15px] copy"></p>
         </div>
-
-        <!-- Abstract Técnico -->
-        <div class="bg-brand-bg/70 border border-brand-border rounded-xl p-5 space-y-2">
-          <div class="text-xs font-mono text-slate-300 uppercase font-semibold">Resumen Metodológico</div>
-          <p id="drawer-project-abstract" class="text-xs text-brand-muted leading-relaxed font-light"></p>
+        <div class="border-t border-white/10 pt-6">
+          <h4 class="eyebrow !text-brand-amber">Impacto de negocio</h4>
+          <p id="drawer-project-business" class="mt-3 text-[15px] copy"></p>
         </div>
-
-        <!-- Impacto de Negocio (ADE) -->
-        <div class="bg-emerald-950/20 border border-emerald-500/20 rounded-xl p-5 space-y-2">
-          <div class="text-xs font-mono text-emerald-400 uppercase font-semibold flex items-center gap-1.5">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
-            <span>Retorno & Justificación de Negocio (ADE)</span>
-          </div>
-          <p id="drawer-project-business" class="text-xs text-emerald-200/80 leading-relaxed font-light"></p>
-        </div>
-
-        <!-- Stack Tags -->
-        <div>
-          <div class="text-xs font-mono text-brand-muted uppercase tracking-wider mb-2">Herramientas & Tecnologías</div>
-          <div id="drawer-tags-container" class="flex flex-wrap gap-2"></div>
-        </div>
-
+        <div id="drawer-tags-container" class="border-t border-white/10 pt-6 flex flex-wrap gap-x-4 gap-y-2"></div>
       </div>
 
-      <!-- PANE 2: PIPELINE DAG -->
-      <div id="tab-content-pipeline" class="inspector-tab-content hidden space-y-4">
-        <div class="text-xs font-mono text-brand-accent uppercase tracking-wider mb-4">// ARQUITECTURA DE FLUJO DE DATOS</div>
-        <div id="drawer-pipeline-container" class="bg-brand-bg/80 border border-brand-border rounded-xl p-6"></div>
+      <div id="tab-content-pipeline" class="inspector-tab-content hidden">
+        <div id="drawer-pipeline-container"></div>
       </div>
 
-      <!-- PANE 3: FORMULACIÓN & CÓDIGO -->
-      <div id="tab-content-code" class="inspector-tab-content hidden space-y-6">
-        
-        <!-- Función Objetivo -->
+      <div id="tab-content-code" class="inspector-tab-content hidden space-y-8">
         <div>
-          <div class="text-xs font-mono text-brand-accent uppercase tracking-wider mb-2">// FUNCIÓN DE COSTE / OPTIMIZACIÓN</div>
-          <div class="bg-black/60 border border-white/10 rounded-xl p-4 font-mono text-xs text-brand-accent overflow-x-auto">
-            <code id="drawer-project-loss"></code>
+          <h4 class="eyebrow">Función objetivo</h4>
+          <div class="mt-3 border-y border-white/10 py-4 overflow-x-auto"><code id="drawer-project-loss"></code></div>
+        </div>
+        <div>
+          <div class="flex items-center justify-between">
+            <h4 class="eyebrow !text-slate-300">Implementación · <span id="drawer-code-lang"></span></h4>
+            <button id="copy-code-btn" type="button" class="font-mono text-xs text-brand-accent hover:underline">Copiar código</button>
+          </div>
+          <div class="mt-3 bg-brand-bg border border-white/10 rounded-md p-4 overflow-auto max-h-96">
+            <pre><code id="drawer-code-block" class="text-slate-200"></code></pre>
           </div>
         </div>
-
-        <!-- Snippet con Copiado -->
-        <div>
-          <div class="flex items-center justify-between mb-2">
-            <span class="text-xs font-mono text-brand-muted uppercase tracking-wider">// IMPLEMENTACIÓN (<span id="drawer-code-lang"></span>)</span>
-            <button 
-              id="copy-code-btn" 
-              class="text-xs font-mono text-brand-accent hover:underline flex items-center gap-1"
-            >
-              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
-              <span>Copiar código</span>
-            </button>
-          </div>
-          <div class="bg-black/80 border border-white/10 rounded-xl p-4 overflow-x-auto max-h-96">
-            <pre><code id="drawer-code-block" class="text-xs text-slate-200"></code></pre>
-          </div>
-        </div>
-
       </div>
-
     </div>
   </div>
 
-  <!-- ========================================================================== -->
-  <!-- MODAL: VISOR INTEGRADO DEL PDF OFICIAL (EXACTO: ESPAÑOL / ENGLISH)        -->
-  <!-- ========================================================================== -->
-  <div id="cv-backdrop" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden opacity-0 transition-opacity duration-300"></div>
+  <!-- VISOR DEL CV EN PDF -->
+  <div id="cv-backdrop" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity duration-300"></div>
 
-  <div 
-    id="cv-modal" 
-    class="fixed inset-3 sm:inset-6 lg:inset-10 bg-brand-surface border border-brand-border rounded-2xl z-50 hidden opacity-0 scale-95 transition-all duration-300 flex flex-col shadow-2xl overflow-hidden"
-  >
-    <!-- Modal Toolbar -->
-    <div class="p-4 sm:p-5 border-b border-brand-border bg-brand-bg flex flex-wrap items-center justify-between gap-4">
-      
-      <div class="flex items-center gap-3">
-        <span class="font-serif font-bold text-lg text-white">Currículum Vitae Oficial</span>
-        
-        <!-- Toggle de Idioma (Español / English) -->
-        <div class="flex items-center p-1 rounded-lg bg-brand-surface border border-brand-border text-xs font-mono">
-          <button 
-            data-lang="es" 
-            class="cv-lang-switch px-3 py-1 rounded-md transition-all bg-brand-accent text-brand-bg font-bold"
-          >
-            Español
-          </button>
-          <button 
-            data-lang="en" 
-            class="cv-lang-switch px-3 py-1 rounded-md transition-all bg-white/5 text-brand-muted hover:text-white"
-          >
-            English
-          </button>
+  <div id="cv-modal" role="dialog" aria-modal="true" aria-label="Currículum Vitae" class="fixed inset-3 sm:inset-6 lg:inset-10 bg-brand-surface border border-white/10 rounded-lg z-50 hidden opacity-0 scale-95 transition-all duration-300 flex flex-col overflow-hidden">
+    <div class="shrink-0 p-3 sm:px-5 sm:py-4 border-b border-white/10 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-4">
+        <span class="hidden sm:inline font-serif text-xl text-white">Currículum Vitae</span>
+        <div class="flex items-center p-0.5 rounded-md border border-white/10 text-xs font-mono">
+          <button data-lang="es" class="cv-lang-switch px-3 py-1 rounded transition-colors bg-brand-accent text-brand-bg font-bold">Español</button>
+          <button data-lang="en" class="cv-lang-switch px-3 py-1 rounded transition-colors bg-white/5 text-brand-muted hover:text-white">English</button>
         </div>
       </div>
 
-      <!-- Acciones directas sobre el PDF Oficial -->
-      <div class="flex items-center gap-2 sm:gap-3">
-        
-        <!-- Abrir en nueva pestaña / Imprimir con calidad vectorial exacta -->
-        <a 
-          id="cv-open-pdf-link"
-          href="assets/docs/CV_Jesus_Rodriguez_Gonzalez_ES.pdf"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 hover:border-brand-accent text-xs font-mono text-white flex items-center gap-1.5 transition-colors"
-          title="Abrir en pestaña nueva para imprimir con calidad original"
-        >
-          <svg class="w-3.5 h-3.5 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-          <span class="hidden sm:inline">Abrir / Imprimir ↗</span>
-          <span class="sm:hidden">Imprimir ↗</span>
-        </a>
-
-        <!-- Descargar el PDF Exacto -->
-        <a 
-          id="cv-download-btn"
-          href="assets/docs/CV_Jesus_Rodriguez_Gonzalez_ES.pdf" 
-          download="CV_Jesus_Rodriguez_Gonzalez_ES.pdf"
-          class="px-3.5 py-1.5 rounded-lg bg-brand-accent text-brand-bg text-xs font-mono font-bold hover:bg-cyan-300 transition-colors flex items-center gap-1.5"
-        >
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-          <span class="cv-download-text">Descargar PDF (ES)</span>
-        </a>
-
-        <!-- Botón Cerrar -->
-        <button 
-          id="cv-modal-close" 
-          class="p-2 rounded-lg bg-white/5 border border-white/10 hover:border-red-400 text-brand-muted hover:text-white transition-colors"
-          title="Cerrar [ESC]"
-        >
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      <div class="flex items-center gap-2">
+        <a id="cv-open-pdf-link" href="assets/docs/CV_Jesus_Rodriguez_Gonzalez_ES.pdf" target="_blank" rel="noopener noreferrer" class="btn-outline !py-1.5" title="Abrir en pestaña nueva para imprimir"><span class="hidden sm:inline">Abrir / Imprimir</span><span class="sm:hidden" aria-label="Abrir PDF">Abrir</span></a>
+        <a id="cv-download-btn" href="assets/docs/CV_Jesus_Rodriguez_Gonzalez_ES.pdf" download="CV_Jesus_Rodriguez_Gonzalez_ES.pdf" class="btn-solid !py-1.5 whitespace-nowrap"><span class="cv-download-text">Descargar PDF (ES)</span></a>
+        <button id="cv-modal-close" class="p-2 rounded-md border border-white/10 hover:border-white/30 text-brand-muted hover:text-white transition-colors" title="Cerrar [ESC]" aria-label="Cerrar visor del CV">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
       </div>
-
     </div>
 
-    <!-- Visor de Documento PDF Real Integrado (Cero alteraciones de formato) -->
-    <div class="flex-1 w-full bg-slate-900/90 relative overflow-hidden">
-      <iframe 
-        id="cv-pdf-frame" 
-        src="assets/docs/CV_Jesus_Rodriguez_Gonzalez_ES.pdf" 
-        class="w-full h-full border-0"
-        title="Currículum Vitae Oficial de Jesús Rodríguez González"
-      >
-        <div class="p-8 text-center text-xs font-mono text-brand-muted space-y-4">
-          <p>Tu navegador no admite previsualización incrustada de archivos PDF.</p>
-          <a 
-            id="cv-fallback-link" 
-            href="assets/docs/CV_Jesus_Rodriguez_Gonzalez_ES.pdf" 
-            target="_blank" 
-            class="inline-block px-4 py-2 rounded-lg bg-brand-accent text-brand-bg font-bold"
-          >
-            Abrir PDF Oficial en nueva pestaña ↗
-          </a>
+    <div class="flex-1 w-full bg-brand-bg relative overflow-hidden">
+      <iframe id="cv-pdf-frame" class="w-full h-full border-0" title="Currículum Vitae de Jesús Rodríguez González"></iframe>
+
+      <div id="cv-fallback" class="hidden h-full">
+        <div class="h-full flex flex-col items-center justify-center gap-5 p-8 text-center text-sm copy">
+          <p class="max-w-xs">Este dispositivo no muestra PDF integrados. Abre el CV en el idioma elegido.</p>
+          <a id="cv-fallback-link" href="assets/docs/CV_Jesus_Rodriguez_Gonzalez_ES.pdf" target="_blank" rel="noopener noreferrer" class="btn-solid">Abrir PDF ↗</a>
         </div>
-      </iframe>
+      </div>
     </div>
-
   </div>
-
-  <!-- Scripts Modulares -->
-  <script src="assets/js/loss-landscape.js"></script>
-  <script src="assets/js/projects-data.js"></script>
-  <script src="assets/js/app.js"></script>
 
 </body>
 </html>

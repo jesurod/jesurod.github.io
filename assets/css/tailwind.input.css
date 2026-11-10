@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .eyebrow {
+    @apply font-mono text-xs tracking-[0.12em] uppercase text-brand-accent;
+  }
+
+  .section-title {
+    @apply font-serif font-medium text-white text-4xl sm:text-5xl leading-[1.1] tracking-tight;
+  }
+
+  .copy {
+    @apply text-slate-300 leading-relaxed;
+  }
+
+  .panel {
+    @apply bg-brand-bg/90 border border-white/[0.09] rounded-lg;
+  }
+
+  .btn-solid {
+    @apply inline-flex items-center px-5 py-2.5 rounded-md bg-brand-accent text-brand-bg font-mono text-xs font-semibold hover:bg-cyan-300 transition-colors;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center px-4 py-2.5 rounded-md border border-white/15 text-white font-mono text-xs hover:border-brand-accent hover:text-brand-accent transition-colors whitespace-nowrap;
+  }
+
+  .field-label {
+    @apply block font-mono text-xs text-brand-muted mb-1.5;
+  }
+
+  .field-input {
+    @apply w-full bg-transparent border-b border-white/15 focus:border-brand-accent py-2 text-base sm:text-sm text-white placeholder:text-slate-500 focus:outline-none transition-colors;
+  }
+
+  .stack-list {
+    @apply mt-5 space-y-2.5 text-sm text-slate-300;
+  }
+
+  .stack-list li:has(span) {
+    @apply flex items-baseline justify-between gap-3;
+  }
+
+  .stack-list li span:last-child:not(:first-child) {
+    @apply font-mono text-xs text-brand-muted;
+  }
+}
